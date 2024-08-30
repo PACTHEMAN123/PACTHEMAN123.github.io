@@ -87,7 +87,7 @@
   <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
   <div class="container">
     <a class="navbar-brand" href="/">
-      <strong>My Blog</strong>
+      <strong>Xiaopac&#39;s Blog</strong>
     </a>
 
     <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
@@ -227,6 +227,126 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h2 class="index-header">
         
+        <a href="/2024/08/30/%E5%B9%B6%E5%8F%91/" target="_self">
+          并发
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2024/08/30/%E5%B9%B6%E5%8F%91/" target="_self">
+        <div>
+          intro多线程共享相同的地址空间，但有不同的程序计数器和栈。 并发会引发十分多糟糕的问题，且人类的线性思维，适合观测串行运行的程序而非并行运行的程序，所以处理并发十分困难。详细的例子可以看jyy的os课体验一下并发互斥 临界区，(critical section)是指访问共享资源的代码。当多个线程同时进入临界区时，可能就会出现竞争条件(race condition)，导致计算机运行的结果具有不确
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2024-08-30 17:15" pubdate>
+              2024-08-30
+            </time>
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/Operating-System/">#Operating System</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/2024/08/30/%E5%86%85%E5%AD%98%E8%99%9A%E6%8B%9F%E5%8C%96/" target="_self">
+          内存虚拟化
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2024/08/30/%E5%86%85%E5%AD%98%E8%99%9A%E6%8B%9F%E5%8C%96/" target="_self">
+        <div>
+          目标虚拟内存具有以下目标：  透明：即程序会被欺骗得很好 效率：在虚拟化时，为了提高效率，需要硬件支持 保护：确保各个进程的隔离  地址转换先从简单的机制入手（后面会更复杂） 动态重定位基于硬件，最简单的重定位。每个cpu需要加入两个硬件寄存器：base和bound。当程序执行时，操作系统会决定其基址，设置base寄存器，然后该进程的所有进程引用都会被处理为物理地址： paddr = vaddr
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2024-08-30 17:11" pubdate>
+              2024-08-30
+            </time>
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/Operating-System/">#Operating System</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/2024/08/30/CPU%E8%99%9A%E6%8B%9F%E5%8C%96/" target="_self">
+          CPU虚拟化
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2024/08/30/CPU%E8%99%9A%E6%8B%9F%E5%8C%96/" target="_self">
+        <div>
+          intro 线程简单理解：一个进程里可以有多个线程，线程可以看作小的进程。同一个进程下的线程共享全局变量和堆内存。  进程创建现代操作系统lazily执行该过程，只有到需要时才会加载数据到进程的地址空间。 APIfork拷贝父进程，但从fork开始执行。同时fork的返回值，子进程是0，父进程为子进程的pid。 wait延迟进程的执行，直到子进程运行完毕才返回 exec并无创建子进程，而是将当前运
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2024-08-30 17:09" pubdate>
+              2024-08-30
+            </time>
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/Operating-System/">#Operating System</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h2 class="index-header">
+        
         <a href="/2024/08/30/Squeeze-Compressor/" target="_self">
           Squeeze Compressor
         </a>
@@ -308,7 +428,7 @@
       
       <a class="index-excerpt index-excerpt__noimg" href="/2024/08/29/hello-world/" target="_self">
         <div>
-          Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick
+          It starts here.
         </div>
       </a>
 

@@ -19,21 +19,22 @@
   <meta name="author" content="John Doe">
   <meta name="keywords" content="">
   
-    <meta name="description" content="进行一些简单的测试标题测试h1h2h3h4代码块测试1hello, world!  列表测试 1 2 3  数学公式$$x &#x3D; 1$$">
+    <meta name="description" content="intro 线程简单理解：一个进程里可以有多个线程，线程可以看作小的进程。同一个进程下的线程共享全局变量和堆内存。  进程创建现代操作系统lazily执行该过程，只有到需要时才会加载数据到进程的地址空间。 APIfork拷贝父进程，但从fork开始执行。同时fork的返回值，子进程是0，父进程为子进程的pid。 wait延迟进程的执行，直到子进程运行完毕才返回 exec并无创建子进程，而是将当前运">
 <meta property="og:type" content="article">
-<meta property="og:title" content="test2">
-<meta property="og:url" content="http://example.com/2024/08/30/test2/index.html">
+<meta property="og:title" content="CPU虚拟化">
+<meta property="og:url" content="http://example.com/2024/08/30/CPU%E8%99%9A%E6%8B%9F%E5%8C%96/index.html">
 <meta property="og:site_name" content="PAC&#39;s Blog">
-<meta property="og:description" content="进行一些简单的测试标题测试h1h2h3h4代码块测试1hello, world!  列表测试 1 2 3  数学公式$$x &#x3D; 1$$">
+<meta property="og:description" content="intro 线程简单理解：一个进程里可以有多个线程，线程可以看作小的进程。同一个进程下的线程共享全局变量和堆内存。  进程创建现代操作系统lazily执行该过程，只有到需要时才会加载数据到进程的地址空间。 APIfork拷贝父进程，但从fork开始执行。同时fork的返回值，子进程是0，父进程为子进程的pid。 wait延迟进程的执行，直到子进程运行完毕才返回 exec并无创建子进程，而是将当前运">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2024-08-30T07:36:52.000Z">
-<meta property="article:modified_time" content="2024-08-30T07:37:14.962Z">
+<meta property="article:published_time" content="2024-08-30T09:09:07.000Z">
+<meta property="article:modified_time" content="2024-08-30T09:10:21.876Z">
 <meta property="article:author" content="John Doe">
+<meta property="article:tag" content="Operating System">
 <meta name="twitter:card" content="summary_large_image">
   
   
   
-  <title>test2 - PAC&#39;s Blog</title>
+  <title>CPU虚拟化 - PAC&#39;s Blog</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -199,7 +200,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="test2"></span>
+            <span id="subtitle" data-typed-text="CPU虚拟化"></span>
           
         </div>
 
@@ -210,7 +211,7 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2024-08-30 15:36" pubdate>
+        <time datetime="2024-08-30 17:09" pubdate>
           2024年8月30日 下午
         </time>
       </span>
@@ -222,7 +223,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          32 字
+          1.1k 字
         
       </span>
     
@@ -233,7 +234,7 @@
         
         
         
-          1 分钟
+          10 分钟
         
       </span>
     
@@ -270,19 +271,46 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">test2</h1>
+            <h1 id="seo-header">CPU虚拟化</h1>
             
             
               <div class="markdown-body">
                 
-                <h1 id="进行一些简单的测试"><a href="#进行一些简单的测试" class="headerlink" title="进行一些简单的测试"></a>进行一些简单的测试</h1><h2 id="标题测试"><a href="#标题测试" class="headerlink" title="标题测试"></a>标题测试</h2><h1 id="h1"><a href="#h1" class="headerlink" title="h1"></a>h1</h1><h2 id="h2"><a href="#h2" class="headerlink" title="h2"></a>h2</h2><h3 id="h3"><a href="#h3" class="headerlink" title="h3"></a>h3</h3><h4 id="h4"><a href="#h4" class="headerlink" title="h4"></a>h4</h4><h2 id="代码块测试"><a href="#代码块测试" class="headerlink" title="代码块测试"></a>代码块测试</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c">hello, world!<br></code></pre></td></tr></table></figure>
-
-<h2 id="列表测试"><a href="#列表测试" class="headerlink" title="列表测试"></a>列表测试</h2><ul>
-<li>1</li>
-<li>2</li>
-<li>3</li>
+                <h1 id="intro"><a href="#intro" class="headerlink" title="intro"></a>intro</h1><blockquote>
+<p>线程简单理解：一个<strong>进程</strong>里可以有多个线程，线程可以看作小的进程。同一个进程下的线程共享全局变量和堆内存。</p>
+</blockquote>
+<h1 id="进程"><a href="#进程" class="headerlink" title="进程"></a>进程</h1><h2 id="创建"><a href="#创建" class="headerlink" title="创建"></a>创建</h2><p>现代操作系统lazily执行该过程，只有到需要时才会加载数据到进程的地址空间。</p>
+<h3 id="API"><a href="#API" class="headerlink" title="API"></a>API</h3><h4 id="fork"><a href="#fork" class="headerlink" title="fork"></a>fork</h4><p>拷贝父进程，但从fork开始执行。同时fork的返回值，子进程是0，父进程为子进程的pid。</p>
+<h4 id="wait"><a href="#wait" class="headerlink" title="wait"></a>wait</h4><p>延迟进程的执行，直到子进程运行完毕才返回</p>
+<h4 id="exec"><a href="#exec" class="headerlink" title="exec"></a>exec</h4><p>并无创建子进程，而是将当前运行的程序替换为不同的运行程序。通过参数来重新初始化代码段、堆、栈等。</p>
+<p>fork和exec的分开可以实现很多功能。shell：先找到可执行程序，接着fork新进程，在新进程里面exec程序，最后wait直到进程结束。比如shell的重定向。</p>
+<p>如：<code>$ cat hello.c &gt; hello.txt</code>，在运行cat之前，先打开hello.txt，关闭stdout，然后再运行，就可以实现重定向。</p>
+<h1 id="limited-direct-execution"><a href="#limited-direct-execution" class="headerlink" title="limited direct execution"></a>limited direct execution</h1><h2 id="限制操作"><a href="#限制操作" class="headerlink" title="限制操作"></a>限制操作</h2><p>为了让进程可以安全地在cpu上运行，引入不同的模式：</p>
+<ul>
+<li>user mode：行为受限</li>
+<li>kernel mode：可以实现特权操作。<br>执行系统调用时，会通过<strong>trap</strong>来跳入内核并切换模式。通过内核启动时设置的<strong>trap table</strong>来跳转到相应的异常处理代码</li>
 </ul>
-<h2 id="数学公式"><a href="#数学公式" class="headerlink" title="数学公式"></a>数学公式</h2><p>$$<br>x &#x3D; 1<br>$$</p>
+<h2 id="进程切换"><a href="#进程切换" class="headerlink" title="进程切换"></a>进程切换</h2><h3 id="cooperative"><a href="#cooperative" class="headerlink" title="cooperative"></a>cooperative</h3><p>当应用程序结束、异常、运行时间过长，或者通过系统调用，控制权回归操作系统。（理想的程序）</p>
+<h3 id="timer-interrupt"><a href="#timer-interrupt" class="headerlink" title="timer interrupt"></a>timer interrupt</h3><p>时钟为设备产生周期性的中断，控制权还给操作系统，让os决定接下来运行什么。</p>
+<h3 id="context"><a href="#context" class="headerlink" title="context"></a>context</h3><p>保存恢复上下文，即上下文切换。为当前的进程保存状态（寄存器etc），为接下来的进程恢复状态。注意与上文的中断不同，前者隐式保存用户的寄存器到该进程的内核栈，后者显示保存到该进程结构的内存（通过保存指针，来保存和恢复状态）（？）</p>
+<h1 id="进程调度基础"><a href="#进程调度基础" class="headerlink" title="进程调度基础"></a>进程调度基础</h1><h2 id="指标"><a href="#指标" class="headerlink" title="指标"></a>指标</h2><p>对于每个进程：<br>周转时间 &#x3D; 完成时间 - 到达时间 （性能）<br>响应时间 &#x3D; 首次运行时间 - 到达时间（公平）</p>
+<h2 id="SJF"><a href="#SJF" class="headerlink" title="SJF"></a>SJF</h2><p><strong>shortest job first</strong>，先运行最短时间的任务。对比FIFO的工作方式，周转时间降低。</p>
+<h2 id="STCF"><a href="#STCF" class="headerlink" title="STCF"></a>STCF</h2><p><strong>shortest time-to-complete first</strong>，又称抢占式任务优先，每当有新工作加入系统，都会确定哪个工作的剩余时间最小，周转时间降低。</p>
+<h2 id="RR"><a href="#RR" class="headerlink" title="RR"></a>RR</h2><p>轮转调度，将工作变成多个时间切片，循环执行不同工作的切片。时间片变短，响应时间越高，但相对的上下文切换的成本提高。公平和性能是一对需要权衡的因素，不可兼得。</p>
+<h2 id="overlap"><a href="#overlap" class="headerlink" title="overlap"></a>overlap</h2><p>一个工作使用I&#x2F;O的时间，可以看成是独立于该工作。则另一个工作可以利用I&#x2F;O运行的时间。</p>
+<h1 id="MLFQ"><a href="#MLFQ" class="headerlink" title="MLFQ"></a>MLFQ</h1><p><strong>multi-level feedback queue</strong>，多级反馈队列，其维护了多个优先级不同的队列，每个工作只存在于一个队列中，不同的队列有不同的时间配额，利用反馈的信息来决定工作的优先级。下面是其规则：</p>
+<ul>
+<li>A的优先级 &gt; B的优先级，则运行A而不运行B</li>
+<li>A的优先级 &#x3D; B的优先级，则轮转运行A和B</li>
+<li>工作进入系统时，放在最高优先级的队列</li>
+<li>一旦工作用完了其在该队列的时间配额，就降低其优先级</li>
+<li>经过一段时间S，所有工作重新加入最优先队列</li>
+</ul>
+<h1 id="proportional-share"><a href="#proportional-share" class="headerlink" title="proportional-share"></a>proportional-share</h1><p>比例份额调度</p>
+<h2 id="lottery-share"><a href="#lottery-share" class="headerlink" title="lottery share"></a>lottery share</h2><p>进程运行越久，其彩票越多。在每次调度决策之前，都会抽出一个数字（中奖号码），显然，彩票越多的进程，中奖概率越大，则作为下一个运行的对象。该方法运用了随机性，当运行时间足够长时，不同工作的时间比例会趋于期望。实现上，比较轻量。</p>
+<p>和LRU替换算法进行对比，LRU在遇到重复循环序列时，性能低。而彩票调度可以避免。</p>
+<h2 id="stride-scheduling"><a href="#stride-scheduling" class="headerlink" title="stride scheduling"></a>stride scheduling</h2><p>步长调度，算法始终选择行程值最小的工作。严格实现，在每次调度都是正确的比例。</p>
+<p>然而以上两种方法都不常用。</p>
 
                 
               </div>
@@ -292,6 +320,13 @@
               <div class="post-metas my-3">
   
   
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Operating-System/" class="print-no-link">#Operating System</a>
+      
+    </div>
+  
 </div>
 
 
@@ -300,8 +335,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>test2</div>
-      <div>http://example.com/2024/08/30/test2/</div>
+      <div>CPU虚拟化</div>
+      <div>http://example.com/2024/08/30/CPU虚拟化/</div>
     </div>
     <div class="license-meta">
       
@@ -345,9 +380,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2024/08/30/Squeeze-Compressor/" title="Squeeze Compressor">
+                      <a href="/2024/08/30/%E5%86%85%E5%AD%98%E8%99%9A%E6%8B%9F%E5%8C%96/" title="内存虚拟化">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">Squeeze Compressor</span>
+                        <span class="hidden-mobile">内存虚拟化</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -355,8 +390,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2024/08/29/hello-world/" title="Hello World">
-                        <span class="hidden-mobile">Hello World</span>
+                      <a href="/2024/08/30/Squeeze-Compressor/" title="Squeeze Compressor">
+                        <span class="hidden-mobile">Squeeze Compressor</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>

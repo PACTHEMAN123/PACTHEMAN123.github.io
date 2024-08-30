@@ -19,21 +19,22 @@
   <meta name="author" content="John Doe">
   <meta name="keywords" content="">
   
-    <meta name="description" content="进行一些简单的测试标题测试h1h2h3h4代码块测试1hello, world!  列表测试 1 2 3  数学公式$$x &#x3D; 1$$">
+    <meta name="description" content="目标虚拟内存具有以下目标：  透明：即程序会被欺骗得很好 效率：在虚拟化时，为了提高效率，需要硬件支持 保护：确保各个进程的隔离  地址转换先从简单的机制入手（后面会更复杂） 动态重定位基于硬件，最简单的重定位。每个cpu需要加入两个硬件寄存器：base和bound。当程序执行时，操作系统会决定其基址，设置base寄存器，然后该进程的所有进程引用都会被处理为物理地址： paddr &#x3D; vaddr">
 <meta property="og:type" content="article">
-<meta property="og:title" content="test2">
-<meta property="og:url" content="http://example.com/2024/08/30/test2/index.html">
+<meta property="og:title" content="内存虚拟化">
+<meta property="og:url" content="http://example.com/2024/08/30/%E5%86%85%E5%AD%98%E8%99%9A%E6%8B%9F%E5%8C%96/index.html">
 <meta property="og:site_name" content="PAC&#39;s Blog">
-<meta property="og:description" content="进行一些简单的测试标题测试h1h2h3h4代码块测试1hello, world!  列表测试 1 2 3  数学公式$$x &#x3D; 1$$">
+<meta property="og:description" content="目标虚拟内存具有以下目标：  透明：即程序会被欺骗得很好 效率：在虚拟化时，为了提高效率，需要硬件支持 保护：确保各个进程的隔离  地址转换先从简单的机制入手（后面会更复杂） 动态重定位基于硬件，最简单的重定位。每个cpu需要加入两个硬件寄存器：base和bound。当程序执行时，操作系统会决定其基址，设置base寄存器，然后该进程的所有进程引用都会被处理为物理地址： paddr &#x3D; vaddr">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2024-08-30T07:36:52.000Z">
-<meta property="article:modified_time" content="2024-08-30T07:37:14.962Z">
+<meta property="article:published_time" content="2024-08-30T09:11:02.000Z">
+<meta property="article:modified_time" content="2024-08-30T09:11:37.681Z">
 <meta property="article:author" content="John Doe">
+<meta property="article:tag" content="Operating System">
 <meta name="twitter:card" content="summary_large_image">
   
   
   
-  <title>test2 - PAC&#39;s Blog</title>
+  <title>内存虚拟化 - PAC&#39;s Blog</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -199,7 +200,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="test2"></span>
+            <span id="subtitle" data-typed-text="内存虚拟化"></span>
           
         </div>
 
@@ -210,7 +211,7 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2024-08-30 15:36" pubdate>
+        <time datetime="2024-08-30 17:11" pubdate>
           2024年8月30日 下午
         </time>
       </span>
@@ -222,7 +223,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          32 字
+          2.3k 字
         
       </span>
     
@@ -233,7 +234,7 @@
         
         
         
-          1 分钟
+          19 分钟
         
       </span>
     
@@ -270,19 +271,78 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">test2</h1>
+            <h1 id="seo-header">内存虚拟化</h1>
             
             
               <div class="markdown-body">
                 
-                <h1 id="进行一些简单的测试"><a href="#进行一些简单的测试" class="headerlink" title="进行一些简单的测试"></a>进行一些简单的测试</h1><h2 id="标题测试"><a href="#标题测试" class="headerlink" title="标题测试"></a>标题测试</h2><h1 id="h1"><a href="#h1" class="headerlink" title="h1"></a>h1</h1><h2 id="h2"><a href="#h2" class="headerlink" title="h2"></a>h2</h2><h3 id="h3"><a href="#h3" class="headerlink" title="h3"></a>h3</h3><h4 id="h4"><a href="#h4" class="headerlink" title="h4"></a>h4</h4><h2 id="代码块测试"><a href="#代码块测试" class="headerlink" title="代码块测试"></a>代码块测试</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c">hello, world!<br></code></pre></td></tr></table></figure>
-
-<h2 id="列表测试"><a href="#列表测试" class="headerlink" title="列表测试"></a>列表测试</h2><ul>
-<li>1</li>
-<li>2</li>
-<li>3</li>
+                <h1 id="目标"><a href="#目标" class="headerlink" title="目标"></a>目标</h1><p>虚拟内存具有以下目标：</p>
+<ul>
+<li>透明：即程序会被欺骗得很好</li>
+<li>效率：在虚拟化时，为了提高效率，需要硬件支持</li>
+<li>保护：确保各个进程的隔离</li>
 </ul>
-<h2 id="数学公式"><a href="#数学公式" class="headerlink" title="数学公式"></a>数学公式</h2><p>$$<br>x &#x3D; 1<br>$$</p>
+<h1 id="地址转换"><a href="#地址转换" class="headerlink" title="地址转换"></a>地址转换</h1><p>先从简单的机制入手（后面会更复杂）</p>
+<h2 id="动态重定位"><a href="#动态重定位" class="headerlink" title="动态重定位"></a>动态重定位</h2><p>基于硬件，最简单的重定位。每个cpu需要加入两个硬件寄存器：<strong>base</strong>和<strong>bound</strong>。当程序执行时，操作系统会决定其基址，设置base寄存器，然后该进程的所有进程引用都会被处理为物理地址：</p>
+<p><code>paddr = vaddr + base</code></p>
+<p>bound寄存器则提供了保护机制，当进程试图越界，会触发异常处理。</p>
+<p>十分明显，这种方法效率低下，进程可能浪费大量内存。</p>
+<h2 id="分段机制"><a href="#分段机制" class="headerlink" title="分段机制"></a>分段机制</h2><p>为了解决上面的问题，我们引入分段的机制。每个段都记录基址，以及界限。则处理地址的过程可以变为：</p>
+<p><code>paddr = bias + base</code></p>
+<p>偏移量可以通过虚拟地址计算出来。可以用虚拟地址的前几位来表示目标段：</p>
+<p><code>[ s1 | s0 | v11 | ... | v0 ]</code></p>
+<p>注意到栈的机制，我们不可以直接用虚拟地址来当偏移量，可以再增加一位用来记录是否反向增长。</p>
+<p>该机制还可以提高保护，比如再引进一位用来记录段的权限。</p>
+<p>物理内存的一个段可以映射到多个虚拟地址空间。</p>
+<p>但该方法无法避免内存碎片，只能减少。需要更好的机制。</p>
+<h1 id="空闲空间管理"><a href="#空闲空间管理" class="headerlink" title="空闲空间管理"></a>空闲空间管理</h1><p>先考虑外部碎片，即由于空闲空间大小不一，导致总空闲空间足够，但因为不连续而导致无法分配。</p>
+<p>主要讲了一些合并与寻找空闲块的策略。</p>
+<h2 id="基本策略"><a href="#基本策略" class="headerlink" title="基本策略"></a>基本策略</h2><ul>
+<li>最优匹配：找候选块最小的可满足的，减少碎片大小</li>
+<li>最差匹配：找候选最大的，留大块碎片（通常糟糕）</li>
+<li>首次匹配：找第一个符合的，速度快</li>
+<li>下次匹配：从上次分配的位置接着往后找</li>
+</ul>
+<h2 id="分离空闲列表"><a href="#分离空闲列表" class="headerlink" title="分离空闲列表"></a>分离空闲列表</h2><p>（不是很理解）</p>
+<h2 id="伙伴系统"><a href="#伙伴系统" class="headerlink" title="伙伴系统"></a>伙伴系统</h2><p>将空闲空间一直二分，直到满足。这样释放的时候，检查伙伴的块，可以实现递归合并。且由于这种机制，一对伙伴之间的地址关系很显然：他们只有一位不同。</p>
+<h1 id="分页"><a href="#分页" class="headerlink" title="分页"></a>分页</h1><p>前面分段的方法，将空间切分成长度不同的部分，造成碎片。我们可以试试将物理内存定长分割，每一块叫做<strong>页</strong>。这种方法抽象程度更高，通过虚拟页与物理页映射，不用考虑进程怎么使用地址。</p>
+<p>通过<strong>页表</strong>，实现虚拟页号（VPN）到物理页号（PFN）的转换。页表记录vpn与pfn的映射关系。比如：<br><code>[vpn|offset] -&gt; [pfn|offset]</code>实际上就完成了地址的转换。</p>
+<h2 id="页表"><a href="#页表" class="headerlink" title="页表"></a>页表</h2><p>在哪？我们可以建立一个<strong>页表基址寄存器</strong>(PTBR)来记录。现在我们可以用伪代码来模拟这个过程：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-comment">// extract vpn</span><br>vpn = (vaddr &amp; vpn_mask) &gt;&gt; shift<br><br><span class="hljs-comment">// get pte</span><br>pte_addr = ptbr + vpn * <span class="hljs-keyword">sizeof</span>(pte)<br>pte = M(pte_addr)<br><br><span class="hljs-comment">// check if can process page</span><br><span class="hljs-keyword">if</span>(pte.valid == <span class="hljs-literal">false</span>)<br>	error(segmentation fault)<br><span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(pte.ifprotect == <span class="hljs-literal">true</span>)<br>	error(protection fault)<br><span class="hljs-keyword">else</span><br>	offset = vpn &amp; offset_mask<br>	paddr = (pte.pfn &lt;&lt; shift) | offset<br>	r = M(paddr)<br></code></pre></td></tr></table></figure>
+
+<h2 id="TLB"><a href="#TLB" class="headerlink" title="TLB"></a>TLB</h2><p>由学过的储存器层次结构，caching是一种能加速内存访问的技术，应用于页表，就是TLB。TLB将前面的PTE表项拿来作为表项。</p>
+<p>处理未命中时，系统抛出异常，加载更新TLB，再回到指令处重新执行。注意并非下一条指令，与之前讲的中断不一样。同时要注意无限递归，即异常处理程序本身不在TLB中。TLB为全相联的结构，所以可以直接并行查找，速度快。</p>
+<p>因为不同的进程映射关系不同，理论上上下文切换时，应该清空TLB，但这样开销太大，可以考虑为TLB加上地址空间标识符（ASID）</p>
+<p>一些替换策略：</p>
+<ul>
+<li>LRU</li>
+<li>随机：避免上面方法的抖动现象</li>
+</ul>
+<h2 id="更小的页表"><a href="#更小的页表" class="headerlink" title="更小的页表"></a>更小的页表</h2><p>从上面知道，页表的项数为：2的 分配给页表的位数 次方，显然，页表本身为一笔不小的开销。我们思考以下方法：</p>
+<p><strong>更大的页</strong>：通过减少vpn的位数从而减少页表，但内部碎片过大</p>
+<p><strong>分段分页混合</strong>：我们不为整个进程提供页表，只对三个逻辑分段提供。之前每段都有一对基址界限寄存器，现在让基址寄存器记录该段的页表上的位置，界限记录有多少有效页。</p>
+<p><strong>多级页表</strong>：本质就是将之前的页表分成页，用高一级的页表记录。好处是，当有一个<strong>页</strong>的页表项没有记录东西，我们可以在高一级的页表上用有效为0的表项来表示，从而避免给空页表分配空间。如下：</p>
+<figure class="highlight coq"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs coq">[   vpn     |   <span class="hljs-type">offset</span>  ]<br>[ pti | <span class="hljs-type">pfn</span> |   <span class="hljs-type">offset</span>  ]<br>[pd1|<span class="hljs-type">pd0</span>|<span class="hljs-type">pfn</span>|   <span class="hljs-type">offset</span>  ]<br>...<br></code></pre></td></tr></table></figure>
+
+<h2 id="超越物理内存"><a href="#超越物理内存" class="headerlink" title="超越物理内存"></a>超越物理内存</h2><h3 id="机制"><a href="#机制" class="headerlink" title="机制"></a>机制</h3><p>我们之前都是假设虚拟内存的空间地址小于物理内存的，为了支持运行更多更大的进程需要在内存层级（memory hierarchy）上加层。</p>
+<p>在这里，我们考虑在物理内存下加上硬盘，并在硬盘上开辟交换空间。</p>
+<p>为了支持交换空间，我们需要添加更多机制。比如在页表项添加存在位，表示该页是否在物理内存中。如果不在，会触发<strong>页错误</strong>。触发之后，会通过硬盘的I&#x2F;O来更新页表。注意在I&#x2F;O运行时，进程阻塞，此时可以执行其他进程，就是cpu虚拟化里提到的[[CPU虚拟化#overlap]]</p>
+<p>同时，操作系统并非等到内存满才会交换页，实际上它可以主动预留一小部分内存。设置<strong>高水位线</strong>（HW）和<strong>低水位线</strong>（LW），当操作系统发现少于LW个页可用，会执行后台释放内存的进程直到有HW个页可用。</p>
+<p>还有，通过同时执行多个交换过程，可以提高性能。</p>
+<h3 id="策略"><a href="#策略" class="headerlink" title="策略"></a>策略</h3><p>为了效率，应该思考在页替换时的选择策略。</p>
+<p><strong>最优替换策略</strong>：本质上需要可以预知未来。是一种无法实现，但可以作为参照（用于评估另一种算法好坏）的方法。具体是替换最远将来会访问的页（听着就很科幻）。</p>
+<p><strong>FIFO</strong>：最先进入缓存的页out，缺点是其无法确定页的重要性。</p>
+<p><strong>随机</strong>：看运气，也是不够智能</p>
+<p><strong>LRU</strong>：可以通过历史记录，在执行替换时，踢出最少最近使用的页。</p>
+<p><strong>近似LRU</strong>：LRU因为需要扫描所有页来实现替换，开销太大。以下是一种近似方法。给硬件增加使用位（use bit），每当页被引用时，使用位设置为1。我们采取<strong>时钟算法</strong>，当需要替换时，时钟指针检查当前指向的页的使用位，如果为1，则将其设置为0，并指向下一页，直到遇到使用位为0的页。</p>
+<p>脏页。因为在内存中，一个没有修改过的页显然写回成本要小于修改过的（因为可以直接释放，不用进行I&#x2F;O）。所以可以考虑加一个脏位（dirty bit）。</p>
+<p>还有一些策略：比如<strong>预取</strong>，<strong>聚集写入</strong>等。</p>
+<h2 id="VAX-VMS"><a href="#VAX-VMS" class="headerlink" title="VAX&#x2F;VMS"></a>VAX&#x2F;VMS</h2><p>主要研究该操作系统的一些有意思的虚拟内存管理。</p>
+<h3 id="地址空间"><a href="#地址空间" class="headerlink" title="地址空间"></a>地址空间</h3><p>内核虚拟空间是每个用户地址空间的一部分。在上下文切换时，该段的基址界限寄存器不会变，本质是将相同的地址空间映射到各个用户。</p>
+<h3 id="页替换策略"><a href="#页替换策略" class="headerlink" title="页替换策略"></a>页替换策略</h3><p><strong>分段的FIFO的策略</strong>：每个进程都有一个可以保留在内存中的最大页数（resident set size），当超过RSS时，先入被驱逐。VMS还引入了二次机会列表（second- chance list），分别为一个全局干净列表和脏列表。页在被踢出之前放在这里。</p>
+<p><strong>页聚集</strong>：将大批量的脏页分组到一起，并一举写入磁盘。</p>
+<h3 id="惰性优化"><a href="#惰性优化" class="headerlink" title="惰性优化"></a>惰性优化</h3><p><strong>按需置零</strong>：当用户添加页到堆，（比如malloc），并不直接分配一个置零的页，而是只在页表里放入一个不可访问的条目。当用户需要读取或者写入该页，才会寻找物理页，将其置0并映射到地址空间。而如果进程不访问这页，就直接省去了这个开销。</p>
+<p><strong>写时复制</strong>：若操作系统需要将一个页面从一个地址空间复制到另一个（比如fork），不会实际复制，而是将其映射到目标地址空间并标记为只读。当需要写的时候，才会分配新页填充数据并重新映射。</p>
 
                 
               </div>
@@ -292,6 +352,13 @@
               <div class="post-metas my-3">
   
   
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Operating-System/" class="print-no-link">#Operating System</a>
+      
+    </div>
+  
 </div>
 
 
@@ -300,8 +367,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>test2</div>
-      <div>http://example.com/2024/08/30/test2/</div>
+      <div>内存虚拟化</div>
+      <div>http://example.com/2024/08/30/内存虚拟化/</div>
     </div>
     <div class="license-meta">
       
@@ -345,9 +412,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2024/08/30/Squeeze-Compressor/" title="Squeeze Compressor">
+                      <a href="/2024/08/30/%E5%B9%B6%E5%8F%91/" title="并发">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">Squeeze Compressor</span>
+                        <span class="hidden-mobile">并发</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -355,8 +422,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2024/08/29/hello-world/" title="Hello World">
-                        <span class="hidden-mobile">Hello World</span>
+                      <a href="/2024/08/30/CPU%E8%99%9A%E6%8B%9F%E5%8C%96/" title="CPU虚拟化">
+                        <span class="hidden-mobile">CPU虚拟化</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
