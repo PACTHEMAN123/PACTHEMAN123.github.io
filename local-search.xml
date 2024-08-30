@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  
+  
+  
+  <entry>
+    <title>Squeeze Compressor</title>
+    <link href="/2024/08/30/Squeeze-Compressor/"/>
+    <url>/2024/08/30/Squeeze-Compressor/</url>
+    
+    <content type="html"><![CDATA[<h2 id="overview"><a href="#overview" class="headerlink" title="overview"></a>overview</h2><p>核心的想法是：对于可精确预测的数据，通过曲线拟合；对于难以合适预测的数据，通过二进制表示的分析来进行有损压缩。</p><h2 id="implement"><a href="#implement" class="headerlink" title="implement"></a>implement</h2><p>压缩前需要的三个参数：绝对误差范围、相对误差范围、压缩率</p><p>以下是压缩的具体算法：</p><h3 id="convert-array"><a href="#convert-array" class="headerlink" title="convert array"></a>convert array</h3><p>通过实验发现，建立曲线是压缩中最大的时间开销。鉴于有<strong>较低的转换开销</strong>、<strong>良好地保留了局部性</strong>的两个优势，使用数据数组原来在内存中的序列用来压缩会更好。</p><h3 id="curve-fitting"><a href="#curve-fitting" class="headerlink" title="curve-fitting"></a>curve-fitting</h3><p>每个数据点都会检查其能否根据先前的数据，使用以下三种曲线近似方法的一种来表示，若可以，易知即可压缩成2bit的数据。</p><ul><li>PNF：通过前一个数据点的<strong>原数据</strong>来预测（01）</li><li>LCF：前两个数据点的<strong>原数据</strong>的线性估计（10）</li><li>QCF：通过前三个数据点的二次曲线来预测（11）</li><li>无法预测：（00）</li></ul><p>该部分会分为以下几步来实现：<br>假设有M个数据点</p><ul><li>分配2Mbits的内存，用于存放压缩后的数据</li><li>计算数据值的变化范围</li><li>检查数据点，决定近似方法，若可近似，将对应的编号写入内存处；若不可近似，则通过对二进制表示的分析来压缩，并写入另一个数组</li></ul><p>由以上的算法，可以看出，该部分的时间复杂度为O(n)，时间和数据量成线性关系十分优秀。</p><h3 id="binary-representation-analysis"><a href="#binary-representation-analysis" class="headerlink" title="binary representation analysis"></a>binary representation analysis</h3><p>以下是二进制表示分析的过程</p><ul><li>通过将所有数据减去中位数，产生<strong>规范化数据</strong>，以缩小数值的范围（可以用更少的位数来表示）</li><li>接着，在误差允许的范围内，抛弃部分影响不大的有效位，再计算需要多少位来表示（注意此处最小的单位为字节，需要将结果约成8的倍数）</li><li>最后，计算需要填充的0的数量，用2bits即可表示（单位为一个全0的字节）</li></ul><h2 id="further-explore"><a href="#further-explore" class="headerlink" title="further explore"></a>further explore</h2><p>SZ压缩提高了数据压缩的速度以及压缩率。可以应用于CPU、GPU、FPGA以及其他科研领域。上文只是SZ的最初实现（SZ 0.1-1.0)的算法。目前SZ以及更新到SZ 3.0了</p><h2 id="citations"><a href="#citations" class="headerlink" title="citations"></a>citations</h2><p>大部分内容来自于以下的论文：</p><ul><li>SZ 0.1-1.0: Sheng Di, Franck Cappello, “<a href="https://ieeexplore.ieee.org/document/7516069">Fast Error-bounded Lossy HPC Data Compression with SZ</a>“, in IEEE International Parallel and Distributed Processing Symposium (IPDPS 2016), Chicago, IL, USA, 2016.</li></ul>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>research</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>test2</title>
+    <link href="/2024/08/30/test2/"/>
+    <url>/2024/08/30/test2/</url>
+    
+    <content type="html"><![CDATA[<h1 id="进行一些简单的测试"><a href="#进行一些简单的测试" class="headerlink" title="进行一些简单的测试"></a>进行一些简单的测试</h1><h2 id="标题测试"><a href="#标题测试" class="headerlink" title="标题测试"></a>标题测试</h2><h1 id="h1"><a href="#h1" class="headerlink" title="h1"></a>h1</h1><h2 id="h2"><a href="#h2" class="headerlink" title="h2"></a>h2</h2><h3 id="h3"><a href="#h3" class="headerlink" title="h3"></a>h3</h3><h4 id="h4"><a href="#h4" class="headerlink" title="h4"></a>h4</h4><h2 id="代码块测试"><a href="#代码块测试" class="headerlink" title="代码块测试"></a>代码块测试</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c">hello, world!<br></code></pre></td></tr></table></figure><h2 id="列表测试"><a href="#列表测试" class="headerlink" title="列表测试"></a>列表测试</h2><ul><li>1</li><li>2</li><li>3</li></ul><h2 id="数学公式"><a href="#数学公式" class="headerlink" title="数学公式"></a>数学公式</h2><p>$$<br>x &#x3D; 1<br>$$</p>]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>Hello World</title>
+    <link href="/2024/08/29/hello-world/"/>
+    <url>/2024/08/29/hello-world/</url>
+    
+    <content type="html"><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p><h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo new <span class="hljs-string">&quot;My New Post&quot;</span><br></code></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p><h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo server<br></code></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p><h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo generate<br></code></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p><h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo deploy<br></code></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  
+</search>
