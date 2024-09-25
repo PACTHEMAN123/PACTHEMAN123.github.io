@@ -1,0 +1,642 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="overview这个实验相当于测试前几个实验的搭建的TCP栈的正确性，我的代码实现没有问题，所以在实验4不再需要改主要的代码。只需要在webget中修改TCPSocket为CS144TCPSocket并加上对应的头文件，运行配置的脚本，就可以使用我们自己实现的TCP协议栈在网络中通信了！ 值得注意的是，UTM的Emulated VLAN模式下好像并不能ping，要使用Shared Network才">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CS144-check4">
+<meta property="og:url" content="http://example.com/2024/09/25/CS144-check4/index.html">
+<meta property="og:site_name" content="PAC&#39;s Blog">
+<meta property="og:description" content="overview这个实验相当于测试前几个实验的搭建的TCP栈的正确性，我的代码实现没有问题，所以在实验4不再需要改主要的代码。只需要在webget中修改TCPSocket为CS144TCPSocket并加上对应的头文件，运行配置的脚本，就可以使用我们自己实现的TCP协议栈在网络中通信了！ 值得注意的是，UTM的Emulated VLAN模式下好像并不能ping，要使用Shared Network才">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/images/Figure_1.png">
+<meta property="og:image" content="http://example.com/images/Figure_2.png">
+<meta property="og:image" content="http://example.com/images/Figure_2.1.png">
+<meta property="og:image" content="http://example.com/images/Figure_3.png">
+<meta property="article:published_time" content="2024-09-25T06:12:33.000Z">
+<meta property="article:modified_time" content="2024-09-25T06:15:47.663Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="Computer-Networking">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/images/Figure_1.png">
+  
+  
+  
+  <title>CS144-check4 - PAC&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Xiaopac&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/images/bg/wallpaperflare.com_wallpaper.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="CS144-check4"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-09-25 14:12" pubdate>
+          2024年9月25日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          772 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          7 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">CS144-check4</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h2 id="overview"><a href="#overview" class="headerlink" title="overview"></a>overview</h2><p>这个实验相当于测试前几个实验的搭建的TCP栈的正确性，我的代码实现没有问题，所以在实验4不再需要改主要的代码。只需要在webget中修改<code>TCPSocket</code>为<code>CS144TCPSocket</code>并加上对应的头文件，运行配置的脚本，就可以使用我们自己实现的TCP协议栈在网络中通信了！</p>
+<p>值得注意的是，UTM的Emulated VLAN模式下好像并不能ping，要使用Shared Network才行。</p>
+<p>由于时间问题，我只跑了一个小时的数据，以下为数据的分析以及分析的源码。</p>
+<h2 id="data-analyzing"><a href="#data-analyzing" class="headerlink" title="data analyzing"></a>data analyzing</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> re<br><span class="hljs-keyword">import</span> matplotlib.pyplot <span class="hljs-keyword">as</span> plt<br><span class="hljs-keyword">import</span> pandas <span class="hljs-keyword">as</span> pd<br><br><span class="hljs-comment"># Read the data from the file</span><br><span class="hljs-keyword">with</span> <span class="hljs-built_in">open</span>(<span class="hljs-string">&#x27;data.txt&#x27;</span>, <span class="hljs-string">&#x27;r&#x27;</span>) <span class="hljs-keyword">as</span> file:<br>    data = file.read()<br><br><span class="hljs-comment"># compute the overall delivery date</span><br>icmp_seq_numbers = re.findall(<span class="hljs-string">r&#x27;icmp_seq=(\d+)&#x27;</span>, data)<br>icmp_seq_numbers = <span class="hljs-built_in">list</span>(<span class="hljs-built_in">map</span>(<span class="hljs-built_in">int</span>, icmp_seq_numbers))  <span class="hljs-comment"># Convert to integers</span><br><br>min_seq = <span class="hljs-built_in">min</span>(icmp_seq_numbers)<br>max_seq = <span class="hljs-built_in">max</span>(icmp_seq_numbers)<br><br>expected_seq_numbers = <span class="hljs-built_in">set</span>(<span class="hljs-built_in">range</span>(min_seq, max_seq + <span class="hljs-number">1</span>))<br><br>missing_seq_numbers = expected_seq_numbers - <span class="hljs-built_in">set</span>(icmp_seq_numbers)<br>missing_numbers_len = <span class="hljs-built_in">len</span>(missing_seq_numbers)<br>overall_delivery_rate = <span class="hljs-number">1</span> - <span class="hljs-built_in">len</span>(missing_seq_numbers) / <span class="hljs-built_in">len</span>(expected_seq_numbers)<br><br><span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;overall delivery date: <span class="hljs-subst">&#123;overall_delivery_rate&#125;</span>&quot;</span>)<br><br><span class="hljs-comment"># find the longest consecutive string of successful pings</span><br>longest_streak = <span class="hljs-number">1</span><br>current_streak = <span class="hljs-number">1</span><br><br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">1</span>, <span class="hljs-built_in">len</span>(icmp_seq_numbers)):<br>    <span class="hljs-keyword">if</span> icmp_seq_numbers[i] == icmp_seq_numbers[i - <span class="hljs-number">1</span>] + <span class="hljs-number">1</span>:<br>        current_streak += <span class="hljs-number">1</span><br>    <span class="hljs-keyword">else</span>:<br>        longest_streak = <span class="hljs-built_in">max</span>(longest_streak, current_streak)<br>        current_streak = <span class="hljs-number">1</span>  <span class="hljs-comment"># Reset for the next potential sequence</span><br><br>longest_streak = <span class="hljs-built_in">max</span>(longest_streak, current_streak)<br><br><span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;Length of the longest consecutive sequence: <span class="hljs-subst">&#123;longest_streak&#125;</span>&quot;</span>)<br><br><span class="hljs-comment"># Find the length of the longest consecutive missing sequence</span><br>missing_seq_numbers = <span class="hljs-built_in">sorted</span>(expected_seq_numbers - <span class="hljs-built_in">set</span>(icmp_seq_numbers))<br>longest_missing_streak = <span class="hljs-number">0</span><br>current_streak = <span class="hljs-number">0</span><br><br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">1</span>, <span class="hljs-built_in">len</span>(missing_seq_numbers)):<br>    <span class="hljs-keyword">if</span> missing_seq_numbers[i] == missing_seq_numbers[i - <span class="hljs-number">1</span>] + <span class="hljs-number">1</span>:<br>        current_streak += <span class="hljs-number">1</span><br>    <span class="hljs-keyword">else</span>:<br>        longest_missing_streak = <span class="hljs-built_in">max</span>(longest_missing_streak, current_streak + <span class="hljs-number">1</span>)  <span class="hljs-comment"># +1 to count the first missing number</span><br>        current_streak = <span class="hljs-number">0</span><br><br>longest_missing_streak = <span class="hljs-built_in">max</span>(longest_missing_streak, current_streak + <span class="hljs-number">1</span>)<br><br><span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;Length of the longest consecutive missing sequence: <span class="hljs-subst">&#123;longest_missing_streak&#125;</span>&quot;</span>)<br><br><span class="hljs-comment"># Compute the independent or correlated of &quot;packet losses&quot;</span><br>received_replies = <span class="hljs-built_in">set</span>(icmp_seq_numbers)<br><br>successful_n = <span class="hljs-number">0</span><br>successful_n_plus_1 = <span class="hljs-number">0</span><br><br><span class="hljs-keyword">for</span> n <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-built_in">min</span>(received_replies), <span class="hljs-built_in">max</span>(received_replies)):<br>    <span class="hljs-keyword">if</span> n <span class="hljs-keyword">in</span> received_replies:<br>        successful_n += <span class="hljs-number">1</span><br>        <span class="hljs-keyword">if</span> n + <span class="hljs-number">1</span> <span class="hljs-keyword">in</span> received_replies:<br>            successful_n_plus_1 += <span class="hljs-number">1</span><br><br><span class="hljs-keyword">if</span> successful_n &gt; <span class="hljs-number">0</span>:<br>    probability = successful_n_plus_1 / successful_n<br><span class="hljs-keyword">else</span>:<br>    probability = <span class="hljs-number">0.0</span><br><br><span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;Probability that echo request seqno #(N+1) was replied to given seqno #N was replied to: <span class="hljs-subst">&#123;probability:<span class="hljs-number">.2</span>f&#125;</span>&quot;</span>)<br><br>unsuccessful_n = <span class="hljs-number">0</span><br>successful_n_plus_1 = <span class="hljs-number">0</span><br><br><span class="hljs-keyword">for</span> n <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-built_in">min</span>(received_replies), <span class="hljs-built_in">max</span>(received_replies)):<br>    <span class="hljs-keyword">if</span> n <span class="hljs-keyword">not</span> <span class="hljs-keyword">in</span> received_replies:<br>        unsuccessful_n += <span class="hljs-number">1</span><br>        <span class="hljs-keyword">if</span> (n + <span class="hljs-number">1</span>) <span class="hljs-keyword">in</span> received_replies:<br>            successful_n_plus_1 += <span class="hljs-number">1</span><br><br><span class="hljs-keyword">if</span> unsuccessful_n &gt; <span class="hljs-number">0</span>:<br>    probability = successful_n_plus_1 / unsuccessful_n<br><span class="hljs-keyword">else</span>:<br>    probability = <span class="hljs-number">0.0</span><br><br><span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;Probability that echo request seqno #(N+1) was replied to given seqno #N did not receive a reply: <span class="hljs-subst">&#123;probability:<span class="hljs-number">.2</span>f&#125;</span>&quot;</span>)<br><br><span class="hljs-comment"># RTT</span><br>rtt_values = re.findall(<span class="hljs-string">r&#x27;time=(\d+\.?\d*) ms&#x27;</span>, data)<br>rtt_values = <span class="hljs-built_in">list</span>(<span class="hljs-built_in">map</span>(<span class="hljs-built_in">float</span>, rtt_values))<br>min_rtt = <span class="hljs-built_in">min</span>(rtt_values)<br>max_rtt = <span class="hljs-built_in">max</span>(rtt_values)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;Minimum RTT seen over the entire interval: <span class="hljs-subst">&#123;min_rtt:<span class="hljs-number">.2</span>f&#125;</span> ms&quot;</span>)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;Maximum RTT seen over the entire interval: <span class="hljs-subst">&#123;max_rtt:<span class="hljs-number">.2</span>f&#125;</span> ms&quot;</span>)<br></code></pre></td></tr></table></figure>
+
+<p>测试的结果：</p>
+<figure class="highlight leaf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs leaf">overall delivery date: 0.958145555662096<br>Length of the longest consecutive sequence: 311<br>Length of the longest consecutive missing sequence: 300<br>Probability that echo request seqno <span class="hljs-punctuation">#</span><span class="hljs-params">(<span class="hljs-variable">N</span><span class="hljs-operator">+</span>1)</span> was replied to given seqno <span class="hljs-punctuation">#</span><span class="hljs-keyword">N</span> was replied to: 0.98<br>Probability that echo request seqno <span class="hljs-punctuation">#</span><span class="hljs-params">(<span class="hljs-variable">N</span><span class="hljs-operator">+</span>1)</span> was replied to given seqno <span class="hljs-punctuation">#</span><span class="hljs-keyword">N</span> did not receive a reply: 0.41<br>Minimum RTT seen over the entire interval: 457.00 ms<br>Maximum RTT seen over the entire interval: 1164.00 ms<br></code></pre></td></tr></table></figure>
+
+<h2 id="graph-analyzing"><a href="#graph-analyzing" class="headerlink" title="graph analyzing"></a>graph analyzing</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> re<br><span class="hljs-keyword">import</span> matplotlib.pyplot <span class="hljs-keyword">as</span> plt<br><span class="hljs-keyword">import</span> pandas <span class="hljs-keyword">as</span> pd<br><br><span class="hljs-comment"># Read the data from the file</span><br><span class="hljs-keyword">with</span> <span class="hljs-built_in">open</span>(<span class="hljs-string">&#x27;data.txt&#x27;</span>, <span class="hljs-string">&#x27;r&#x27;</span>) <span class="hljs-keyword">as</span> file:<br>    data = file.read()<br><br><span class="hljs-comment"># Extract RTT values and timestamps using regular expressions</span><br>timestamps = re.findall(<span class="hljs-string">r&#x27;\[(\d+\.\d+)\] 64 bytes&#x27;</span>, data)<br>rtt_values = re.findall(<span class="hljs-string">r&#x27;time=(\d+\.?\d*) ms&#x27;</span>, data)<br><br><span class="hljs-comment"># Convert RTT values to float</span><br>rtt_values = <span class="hljs-built_in">list</span>(<span class="hljs-built_in">map</span>(<span class="hljs-built_in">float</span>, rtt_values))<br><br><span class="hljs-comment"># Convert timestamps to datetime format</span><br>timestamps = [pd.to_datetime(<span class="hljs-built_in">float</span>(ts), unit=<span class="hljs-string">&#x27;s&#x27;</span>, origin=<span class="hljs-string">&#x27;unix&#x27;</span>) <span class="hljs-keyword">for</span> ts <span class="hljs-keyword">in</span> timestamps]<br><br><span class="hljs-comment"># Create a DataFrame for easier plotting</span><br>df = pd.DataFrame(&#123;<span class="hljs-string">&#x27;Time&#x27;</span>: timestamps, <span class="hljs-string">&#x27;RTT&#x27;</span>: rtt_values&#125;)<br><br><span class="hljs-comment"># Plotting</span><br>plt.figure(figsize=(<span class="hljs-number">12</span>, <span class="hljs-number">6</span>))<br>plt.plot(df[<span class="hljs-string">&#x27;Time&#x27;</span>], df[<span class="hljs-string">&#x27;RTT&#x27;</span>], marker=<span class="hljs-string">&#x27;o&#x27;</span>, linestyle=<span class="hljs-string">&#x27;-&#x27;</span>, color=<span class="hljs-string">&#x27;b&#x27;</span>)<br>plt.title(<span class="hljs-string">&#x27;RTT as a Function of Time&#x27;</span>)<br>plt.xlabel(<span class="hljs-string">&#x27;Time of Day&#x27;</span>)<br>plt.ylabel(<span class="hljs-string">&#x27;RTT (ms)&#x27;</span>)<br>plt.xticks(rotation=<span class="hljs-number">45</span>)<br>plt.grid()<br><br><span class="hljs-comment"># Show the plot</span><br>plt.tight_layout()<br>plt.show()<br></code></pre></td></tr></table></figure>
+
+<p><img src="/images/Figure_1.png" srcset="/img/loading.gif" lazyload></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> re<br><span class="hljs-keyword">import</span> matplotlib.pyplot <span class="hljs-keyword">as</span> plt<br><span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np<br><br><span class="hljs-comment"># Read the data from the file</span><br><span class="hljs-keyword">with</span> <span class="hljs-built_in">open</span>(<span class="hljs-string">&#x27;data.txt&#x27;</span>, <span class="hljs-string">&#x27;r&#x27;</span>) <span class="hljs-keyword">as</span> file:<br>    data = file.read()<br><br><span class="hljs-comment"># Extract RTT values using regular expressions</span><br>rtt_values = re.findall(<span class="hljs-string">r&#x27;time=(\d+\.?\d*) ms&#x27;</span>, data)<br>rtt_values = <span class="hljs-built_in">list</span>(<span class="hljs-built_in">map</span>(<span class="hljs-built_in">float</span>, rtt_values))  <span class="hljs-comment"># Convert to float</span><br><br><span class="hljs-comment"># Check if there are RTT values</span><br><span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> rtt_values:<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;No RTT values found.&quot;</span>)<br><span class="hljs-keyword">else</span>:<br>    <span class="hljs-comment"># Plot Histogram</span><br>    plt.figure(figsize=(<span class="hljs-number">12</span>, <span class="hljs-number">6</span>))<br>    plt.hist(rtt_values, bins=<span class="hljs-number">30</span>, edgecolor=<span class="hljs-string">&#x27;black&#x27;</span>, alpha=<span class="hljs-number">0.7</span>)<br>    plt.title(<span class="hljs-string">&#x27;Histogram of RTTs&#x27;</span>)<br>    plt.xlabel(<span class="hljs-string">&#x27;RTT (ms)&#x27;</span>)<br>    plt.ylabel(<span class="hljs-string">&#x27;Frequency&#x27;</span>)<br>    plt.grid(<span class="hljs-literal">True</span>)<br>    plt.show()<br><br>    <span class="hljs-comment"># Plot Cumulative Distribution Function (CDF)</span><br>    plt.figure(figsize=(<span class="hljs-number">12</span>, <span class="hljs-number">6</span>))<br>    sorted_rtt = np.sort(rtt_values)<br>    cdf = np.arange(<span class="hljs-built_in">len</span>(sorted_rtt)) / <span class="hljs-built_in">float</span>(<span class="hljs-built_in">len</span>(sorted_rtt))<br>    plt.plot(sorted_rtt, cdf, marker=<span class="hljs-string">&#x27;.&#x27;</span>, linestyle=<span class="hljs-string">&#x27;none&#x27;</span>)<br>    plt.title(<span class="hljs-string">&#x27;Cumulative Distribution Function (CDF) of RTTs&#x27;</span>)<br>    plt.xlabel(<span class="hljs-string">&#x27;RTT (ms)&#x27;</span>)<br>    plt.ylabel(<span class="hljs-string">&#x27;CDF&#x27;</span>)<br>    plt.grid(<span class="hljs-literal">True</span>)<br>    plt.show()<br></code></pre></td></tr></table></figure>
+
+<p><img src="/images/Figure_2.png" srcset="/img/loading.gif" lazyload><br><img src="/images/Figure_2.1.png" srcset="/img/loading.gif" lazyload></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> re<br><span class="hljs-keyword">import</span> matplotlib.pyplot <span class="hljs-keyword">as</span> plt<br><span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np<br><br><span class="hljs-comment"># Read the data from the file</span><br><span class="hljs-keyword">with</span> <span class="hljs-built_in">open</span>(<span class="hljs-string">&#x27;data.txt&#x27;</span>, <span class="hljs-string">&#x27;r&#x27;</span>) <span class="hljs-keyword">as</span> file:<br>    data = file.read()<br><br><span class="hljs-comment"># Extract RTT values using regular expressions</span><br>rtt_values = re.findall(<span class="hljs-string">r&#x27;time=(\d+\.?\d*) ms&#x27;</span>, data)<br>rtt_values = <span class="hljs-built_in">list</span>(<span class="hljs-built_in">map</span>(<span class="hljs-built_in">float</span>, rtt_values))  <span class="hljs-comment"># Convert to float</span><br><br><span class="hljs-comment"># Create pairs of consecutive RTT values (N and N+1)</span><br><span class="hljs-keyword">if</span> <span class="hljs-built_in">len</span>(rtt_values) &lt; <span class="hljs-number">2</span>:<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;Not enough RTT values for correlation analysis.&quot;</span>)<br><span class="hljs-keyword">else</span>:<br>    rtt_N = rtt_values[:-<span class="hljs-number">1</span>]   <span class="hljs-comment"># RTT of ping #N</span><br>    rtt_N_plus_1 = rtt_values[<span class="hljs-number">1</span>:]  <span class="hljs-comment"># RTT of ping #N+1</span><br><br>    <span class="hljs-comment"># Plot RTT of ping #N vs RTT of ping #N+1</span><br>    plt.figure(figsize=(<span class="hljs-number">8</span>, <span class="hljs-number">6</span>))<br>    plt.scatter(rtt_N, rtt_N_plus_1, alpha=<span class="hljs-number">0.6</span>, edgecolors=<span class="hljs-string">&#x27;black&#x27;</span>)<br>    plt.title(<span class="hljs-string">&#x27;Correlation between RTT of Ping #N and RTT of Ping #N+1&#x27;</span>)<br>    plt.xlabel(<span class="hljs-string">&#x27;RTT of Ping #N (ms)&#x27;</span>)<br>    plt.ylabel(<span class="hljs-string">&#x27;RTT of Ping #N+1 (ms)&#x27;</span>)<br>    plt.grid(<span class="hljs-literal">True</span>)<br>    plt.show()<br></code></pre></td></tr></table></figure>
+
+<p><img src="/images/Figure_3.png" srcset="/img/loading.gif" lazyload></p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Computer-Networking/" class="print-no-link">#Computer-Networking</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>CS144-check4</div>
+      <div>http://example.com/2024/09/25/CS144-check4/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>John Doe</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2024年9月25日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/09/24/CS144-check3/" title="CS144-check3">
+                        <span class="hidden-mobile">CS144-check3</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

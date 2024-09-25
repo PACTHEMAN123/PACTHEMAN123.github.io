@@ -227,6 +227,46 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h2 class="index-header">
         
+        <a href="/2024/09/25/CS144-check4/" target="_self">
+          CS144-check4
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2024/09/25/CS144-check4/" target="_self">
+        <div>
+          overview这个实验相当于测试前几个实验的搭建的TCP栈的正确性，我的代码实现没有问题，所以在实验4不再需要改主要的代码。只需要在webget中修改TCPSocket为CS144TCPSocket并加上对应的头文件，运行配置的脚本，就可以使用我们自己实现的TCP协议栈在网络中通信了！ 值得注意的是，UTM的Emulated VLAN模式下好像并不能ping，要使用Shared Network才
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2024-09-25 14:12" pubdate>
+              2024-09-25
+            </time>
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/Computer-Networking/">#Computer-Networking</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h2 class="index-header">
+        
         <a href="/2024/09/24/CS144-check3/" target="_self">
           CS144-check3
         </a>
@@ -567,46 +607,6 @@
             <i class="iconfont icon-tags"></i>
             
               <a href="/tags/Operating-System/">#Operating System</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h2 class="index-header">
-        
-        <a href="/2024/08/30/Squeeze-Compressor/" target="_self">
-          Squeeze Compressor
-        </a>
-      </h2>
-
-      
-      <a class="index-excerpt index-excerpt__noimg" href="/2024/08/30/Squeeze-Compressor/" target="_self">
-        <div>
-          overview核心的想法是：对于可精确预测的数据，通过曲线拟合；对于难以合适预测的数据，通过二进制表示的分析来进行有损压缩。 implement压缩前需要的三个参数：绝对误差范围、相对误差范围、压缩率 以下是压缩的具体算法： convert array通过实验发现，建立曲线是压缩中最大的时间开销。鉴于有较低的转换开销、良好地保留了局部性的两个优势，使用数据数组原来在内存中的序列用来压缩会更好。
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2024-08-30 15:41" pubdate>
-              2024-08-30
-            </time>
-          </div>
-        
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/research/">#research</a>
             
           </div>
         
