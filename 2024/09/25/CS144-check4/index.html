@@ -31,7 +31,7 @@
 <meta property="og:image" content="http://example.com/images/Figure_2.1.png">
 <meta property="og:image" content="http://example.com/images/Figure_3.png">
 <meta property="article:published_time" content="2024-09-25T06:12:33.000Z">
-<meta property="article:modified_time" content="2024-09-25T06:15:47.663Z">
+<meta property="article:modified_time" content="2024-09-25T06:18:52.567Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="Computer-Networking">
 <meta name="twitter:card" content="summary_large_image">
@@ -228,7 +228,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          772 字
+          815 字
         
       </span>
     
@@ -298,6 +298,8 @@
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> re<br><span class="hljs-keyword">import</span> matplotlib.pyplot <span class="hljs-keyword">as</span> plt<br><span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np<br><br><span class="hljs-comment"># Read the data from the file</span><br><span class="hljs-keyword">with</span> <span class="hljs-built_in">open</span>(<span class="hljs-string">&#x27;data.txt&#x27;</span>, <span class="hljs-string">&#x27;r&#x27;</span>) <span class="hljs-keyword">as</span> file:<br>    data = file.read()<br><br><span class="hljs-comment"># Extract RTT values using regular expressions</span><br>rtt_values = re.findall(<span class="hljs-string">r&#x27;time=(\d+\.?\d*) ms&#x27;</span>, data)<br>rtt_values = <span class="hljs-built_in">list</span>(<span class="hljs-built_in">map</span>(<span class="hljs-built_in">float</span>, rtt_values))  <span class="hljs-comment"># Convert to float</span><br><br><span class="hljs-comment"># Create pairs of consecutive RTT values (N and N+1)</span><br><span class="hljs-keyword">if</span> <span class="hljs-built_in">len</span>(rtt_values) &lt; <span class="hljs-number">2</span>:<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;Not enough RTT values for correlation analysis.&quot;</span>)<br><span class="hljs-keyword">else</span>:<br>    rtt_N = rtt_values[:-<span class="hljs-number">1</span>]   <span class="hljs-comment"># RTT of ping #N</span><br>    rtt_N_plus_1 = rtt_values[<span class="hljs-number">1</span>:]  <span class="hljs-comment"># RTT of ping #N+1</span><br><br>    <span class="hljs-comment"># Plot RTT of ping #N vs RTT of ping #N+1</span><br>    plt.figure(figsize=(<span class="hljs-number">8</span>, <span class="hljs-number">6</span>))<br>    plt.scatter(rtt_N, rtt_N_plus_1, alpha=<span class="hljs-number">0.6</span>, edgecolors=<span class="hljs-string">&#x27;black&#x27;</span>)<br>    plt.title(<span class="hljs-string">&#x27;Correlation between RTT of Ping #N and RTT of Ping #N+1&#x27;</span>)<br>    plt.xlabel(<span class="hljs-string">&#x27;RTT of Ping #N (ms)&#x27;</span>)<br>    plt.ylabel(<span class="hljs-string">&#x27;RTT of Ping #N+1 (ms)&#x27;</span>)<br>    plt.grid(<span class="hljs-literal">True</span>)<br>    plt.show()<br></code></pre></td></tr></table></figure>
 
 <p><img src="/images/Figure_3.png" srcset="/img/loading.gif" lazyload></p>
+<p>由图表可以看出，两者几乎是独立的概率，前者并不会影响后者。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p><em><strong>阶段性胜利！！！</strong></em>，让我们接着实现IP栈吧！</p>
 
                 
               </div>
@@ -366,6 +368,12 @@
                 <div class="post-prevnext my-3">
                   <article class="post-prev col-6">
                     
+                    
+                      <a href="/2024/09/26/%E7%BD%91%E7%BB%9C%E5%B1%82/" title="计算机网络：网络层">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">计算机网络：网络层</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
                     
                   </article>
                   <article class="post-next col-6">
