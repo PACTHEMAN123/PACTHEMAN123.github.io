@@ -227,6 +227,126 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h2 class="index-header">
         
+        <a href="/2024/09/30/CS144-check7/" target="_self">
+          CS144-check7
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2024/09/30/CS144-check7/" target="_self">
+        <div>
+          overview我们已经实现了完整的TCP&#x2F;IP栈，可以与现实世界通信了！ test因为没有CS144学习的搭子，只能自己测试了。 我在macbook的基础上，又搞来了一台windows的机器，在上面配置好了一样的环境。将我最终的实现推上了github，在windows机上clone下来运行。注意mac上的utm还是要调成Shared Network的模式。 result通过keithw
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2024-09-30 12:43" pubdate>
+              2024-09-30
+            </time>
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/Computer-Networking/">#Computer-Networking</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/2024/09/30/CS144-check6/" target="_self">
+          CS144-check6
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2024/09/30/CS144-check6/" target="_self">
+        <div>
+          overview虽然一共有8个lab，但本质上这就是最后一个了：第八个lab是检查你的实现是否正确，并在真实的网络环境下运行。check6需要我们实现路由：将同一个路由器的不同网络接口收到的报文分发到正确的网络接口。确定网络接口使用了Longest-prefix match。 具体的，我们需要记录一张路由表，并根据匹配+动作的路由规则正确处理。 简单得出乎意料，并不需要实现路由选择算法之流。 im
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2024-09-30 12:43" pubdate>
+              2024-09-30
+            </time>
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/Computer-Networking/">#Computer-Networking</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/2024/09/30/CS144-check5/" target="_self">
+          CS144-check5
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2024/09/30/CS144-check5/" target="_self">
+        <div>
+          overview在这个checkpoint中，我们需要实现network interface，即网络接口。一台路由器&#x2F;主机会有多个网络接口。我们实现的network interface，连接了物理层和链路层，即会将IP报文封装成Ethernet frame。 现在我们需要研究怎么正确地封装，并附上正确的物理地址。 一般来说，我们会在网络接口处维护一张IP地址-MAC地址的转换表，并按照这
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2024-09-30 12:43" pubdate>
+              2024-09-30
+            </time>
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/Computer-Networking/">#Computer-Networking</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h2 class="index-header">
+        
         <a href="/2024/09/26/%E7%BD%91%E7%BB%9C%E5%B1%82/" target="_self">
           计算机网络：网络层
         </a>
@@ -494,126 +614,6 @@
             <i class="iconfont icon-tags"></i>
             
               <a href="/tags/Computer-Networking/">#Computer-Networking</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h2 class="index-header">
-        
-        <a href="/2024/09/12/%E5%BA%94%E7%94%A8%E5%B1%82/" target="_self">
-          计算机网络：应用层
-        </a>
-      </h2>
-
-      
-      <a class="index-excerpt index-excerpt__noimg" href="/2024/09/12/%E5%BA%94%E7%94%A8%E5%B1%82/" target="_self">
-        <div>
-          应用层协议原理在具体的讨论所有概念之前，需要先大致知道各个部分的关系是怎么样的。 网络应用程序体系结构应用程序研发者需要决定程序使用的体系结构，一般有以下两种： 客户-服务器体系结构(client-server architecture)服务器接收来自用户的请求，发送所请求的对象。服务器具有固定的ip地址。 P2P体系结构成对间歇连接的主机彼此直接通信。P2P的体系结构具有自拓展性，随着对等方数量
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2024-09-12 17:18" pubdate>
-              2024-09-12
-            </time>
-          </div>
-        
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/Computer-Networking/">#Computer-Networking</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h2 class="index-header">
-        
-        <a href="/2024/08/30/%E5%B9%B6%E5%8F%91/" target="_self">
-          操作系统：并发
-        </a>
-      </h2>
-
-      
-      <a class="index-excerpt index-excerpt__noimg" href="/2024/08/30/%E5%B9%B6%E5%8F%91/" target="_self">
-        <div>
-          intro多线程共享相同的地址空间，但有不同的程序计数器和栈。 并发会引发十分多糟糕的问题，且人类的线性思维，适合观测串行运行的程序而非并行运行的程序，所以处理并发十分困难。详细的例子可以看jyy的os课体验一下并发互斥 临界区，(critical section)是指访问共享资源的代码。当多个线程同时进入临界区时，可能就会出现竞争条件(race condition)，导致计算机运行的结果具有不确
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2024-08-30 17:15" pubdate>
-              2024-08-30
-            </time>
-          </div>
-        
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/Operating-System/">#Operating-System</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h2 class="index-header">
-        
-        <a href="/2024/08/30/%E5%86%85%E5%AD%98%E8%99%9A%E6%8B%9F%E5%8C%96/" target="_self">
-          操作系统：内存虚拟化
-        </a>
-      </h2>
-
-      
-      <a class="index-excerpt index-excerpt__noimg" href="/2024/08/30/%E5%86%85%E5%AD%98%E8%99%9A%E6%8B%9F%E5%8C%96/" target="_self">
-        <div>
-          目标虚拟内存具有以下目标：  透明：即程序会被欺骗得很好 效率：在虚拟化时，为了提高效率，需要硬件支持 保护：确保各个进程的隔离  地址转换先从简单的机制入手（后面会更复杂） 动态重定位基于硬件，最简单的重定位。每个cpu需要加入两个硬件寄存器：base和bound。当程序执行时，操作系统会决定其基址，设置base寄存器，然后该进程的所有进程引用都会被处理为物理地址： paddr = vaddr
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2024-08-30 17:11" pubdate>
-              2024-08-30
-            </time>
-          </div>
-        
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/Operating-System/">#Operating-System</a>
             
           </div>
         
