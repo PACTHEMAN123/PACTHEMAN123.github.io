@@ -19,22 +19,22 @@
   <meta name="author" content="John Doe">
   <meta name="keywords" content="">
   
-    <meta name="description" content="overview我们已经实现了完整的TCP&#x2F;IP栈，可以与现实世界通信了！ test因为没有CS144学习的搭子，只能自己测试了。 我在macbook的基础上，又搞来了一台windows的机器，在上面配置好了一样的环境。将我最终的实现推上了github，在windows机上clone下来运行。注意mac上的utm还是要调成Shared Network的模式。 result通过keithw">
+    <meta name="description" content="概述运行链路层协议的任何设备称为节点，沿着通信路径连接相邻节点的信道称为链路。链路层的主体部分在网络适配器中实现，也叫网络接口卡。即NIC。链路层部分需要通过软件实现，比如响应中断、处理差错、传递给网络层。 差错检测和纠正技术奇偶校验对于一段长为d bit的数据，加上一个检验的bit，使得这d+1个bit有偶数个1。显然，当d个bit里面只有一个地方出现差错，可以发现且纠正，但对于两个差错的话就无">
 <meta property="og:type" content="article">
-<meta property="og:title" content="CS144-check7">
-<meta property="og:url" content="http://example.com/2024/09/30/CS144-check7/index.html">
+<meta property="og:title" content="计算机网络：链路层">
+<meta property="og:url" content="http://example.com/2024/10/03/%E9%93%BE%E8%B7%AF%E5%B1%82/index.html">
 <meta property="og:site_name" content="PAC&#39;s Blog">
-<meta property="og:description" content="overview我们已经实现了完整的TCP&#x2F;IP栈，可以与现实世界通信了！ test因为没有CS144学习的搭子，只能自己测试了。 我在macbook的基础上，又搞来了一台windows的机器，在上面配置好了一样的环境。将我最终的实现推上了github，在windows机上clone下来运行。注意mac上的utm还是要调成Shared Network的模式。 result通过keithw">
+<meta property="og:description" content="概述运行链路层协议的任何设备称为节点，沿着通信路径连接相邻节点的信道称为链路。链路层的主体部分在网络适配器中实现，也叫网络接口卡。即NIC。链路层部分需要通过软件实现，比如响应中断、处理差错、传递给网络层。 差错检测和纠正技术奇偶校验对于一段长为d bit的数据，加上一个检验的bit，使得这d+1个bit有偶数个1。显然，当d个bit里面只有一个地方出现差错，可以发现且纠正，但对于两个差错的话就无">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2024-09-30T04:43:30.000Z">
-<meta property="article:modified_time" content="2024-09-30T04:45:37.444Z">
+<meta property="article:published_time" content="2024-10-03T15:43:18.000Z">
+<meta property="article:modified_time" content="2024-10-03T15:44:07.029Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="Computer-Networking">
 <meta name="twitter:card" content="summary_large_image">
   
   
   
-  <title>CS144-check7 - PAC&#39;s Blog</title>
+  <title>计算机网络：链路层 - PAC&#39;s Blog</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -200,7 +200,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="CS144-check7"></span>
+            <span id="subtitle" data-typed-text="计算机网络：链路层"></span>
           
         </div>
 
@@ -211,8 +211,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2024-09-30 12:43" pubdate>
-          2024年9月30日 下午
+        <time datetime="2024-10-03 23:43" pubdate>
+          2024年10月3日 晚上
         </time>
       </span>
     
@@ -223,7 +223,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          269 字
+          1.1k 字
         
       </span>
     
@@ -234,7 +234,7 @@
         
         
         
-          3 分钟
+          9 分钟
         
       </span>
     
@@ -271,17 +271,40 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">CS144-check7</h1>
+            <h1 id="seo-header">计算机网络：链路层</h1>
             
             
               <div class="markdown-body">
                 
-                <h2 id="overview"><a href="#overview" class="headerlink" title="overview"></a>overview</h2><p>我们已经实现了完整的TCP&#x2F;IP栈，可以与现实世界通信了！</p>
-<h2 id="test"><a href="#test" class="headerlink" title="test"></a>test</h2><p>因为没有CS144学习的搭子，只能自己测试了。</p>
-<p>我在macbook的基础上，又搞来了一台windows的机器，在上面配置好了一样的环境。将我最终的实现推上了github，在windows机上clone下来运行。注意mac上的utm还是要调成Shared Network的模式。</p>
-<h2 id="result"><a href="#result" class="headerlink" title="result"></a>result</h2><p>通过<code>keithw.cs144.org</code>连接成功后，可以在两台机器上实现通信，可以顺利地互相发送信息并优雅地关闭连接。</p>
-<p>遗憾的是，传输大文件时，出现了差错，导致了发送和接收的大文件的sha256码不一样。</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>整个实验+阅读书籍耗时一个月。minnow的版本，对比sponge，删除了原lab4实现TCP connect的状态机模型，简单了非常多，体验还是不错的。对于我自己来说，还可以在框架代码里面学习到modern C++的一些用法，真的很优雅。虽然还是写不来（不熟），但收获蛮大。</p>
+                <h1 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h1><p>运行链路层协议的任何设备称为<strong>节点</strong>，沿着通信路径连接相邻节点的信道称为链路。链路层的主体部分在<strong>网络适配器</strong>中实现，也叫<strong>网络接口卡</strong>。即NIC。链路层部分需要通过软件实现，比如响应中断、处理差错、传递给网络层。</p>
+<h1 id="差错检测和纠正技术"><a href="#差错检测和纠正技术" class="headerlink" title="差错检测和纠正技术"></a>差错检测和纠正技术</h1><h2 id="奇偶校验"><a href="#奇偶校验" class="headerlink" title="奇偶校验"></a>奇偶校验</h2><p>对于一段长为d bit的数据，加上一个检验的bit，使得这d+1个bit有偶数个1。显然，当d个bit里面只有一个地方出现差错，可以发现且纠正，但对于两个差错的话就无能为力了。更好的方法是<strong>二维奇偶校验</strong>，即将数据划分为多行多列，每个行和列都加上检验的bit，这样可以检测到多个差错。</p>
+<h2 id="检验和方法"><a href="#检验和方法" class="headerlink" title="检验和方法"></a>检验和方法</h2><p>即checksum，将数据看为k bit的整数的序列，将每个数加起来成为差错检验比特。</p>
+<h2 id="循环冗余检测"><a href="#循环冗余检测" class="headerlink" title="循环冗余检测"></a>循环冗余检测</h2><p>todo</p>
+<h1 id="多路访问链路和协议"><a href="#多路访问链路和协议" class="headerlink" title="多路访问链路和协议"></a>多路访问链路和协议</h1><p>链路可以分为<strong>点对点链路</strong>和<strong>广播链路</strong>。对于广播链路，需要协调多个发送和接收节点对一个共享广播信道的访问，即<strong>多路访问问题</strong>。当节点接到多个帧，会发生<strong>碰撞</strong>，碰撞帧的信号纠缠并导致信息丢失，浪费广播信道。我们通过多路访问协议，来协调。</p>
+<h2 id="信道划分协议"><a href="#信道划分协议" class="headerlink" title="信道划分协议"></a>信道划分协议</h2><ul>
+<li><strong>时分多路复用</strong>，即TDM，将时间划分为<strong>时间帧</strong>，每个帧只有一个节点传输。</li>
+<li><strong>频分多路复用</strong>，即FDM，将信道分为多个信道。</li>
+<li><strong>码分多址</strong>，即CDMA，为每个节点分配编码。</li>
+</ul>
+<h2 id="随机接入协议"><a href="#随机接入协议" class="headerlink" title="随机接入协议"></a>随机接入协议</h2><p>todo</p>
+<h2 id="轮流接入协议"><a href="#轮流接入协议" class="headerlink" title="轮流接入协议"></a>轮流接入协议</h2><p>todo</p>
+<h1 id="交换局域网"><a href="#交换局域网" class="headerlink" title="交换局域网"></a>交换局域网</h1><h2 id="链路层寻址"><a href="#链路层寻址" class="headerlink" title="链路层寻址"></a>链路层寻址</h2><h3 id="MAC地址"><a href="#MAC地址" class="headerlink" title="MAC地址"></a>MAC地址</h3><p>并非主机或者路由器有链路层地址，而是其网络接口有链路层地址。链路层地址，也叫<strong>LAN</strong>，<strong>物理地址</strong>，<strong>MAC</strong>。IEEE管理MAC地址空间，使得每个网络接口有独一无二的地址。可以理解为，IP地址是邮政地址，而MAC是一个人的身份证。人在不同地方时，写的信的地址不同，但身份证不会变。如果需要广播信息给所有的适配器，要用到广播地址FF-FF-FF-FF-FF-FF</p>
+<h3 id="ARP"><a href="#ARP" class="headerlink" title="ARP"></a>ARP</h3><p>地址解析协议，即ARP，用于网络层和链路层的转换。每台路由器在内存中有一个<strong>ARP表</strong>，包含了两者的映射关系，同时每个映射都有TTL，到时间就会过期。假设主机需要向一个特定的ip地址发送数据报，但ARP表没有相应的项，会构造<strong>ARP分组</strong>，广播并等待回复。</p>
+<h3 id="以太网"><a href="#以太网" class="headerlink" title="以太网"></a>以太网</h3><p>以太网为目前最流行的有线局域网的技术</p>
+<p>以太网的帧结构定义了数据在以太网网络上传输的格式。以太网帧是一种数据包，包含了发送和接收设备的地址信息、传输的数据、以及用于检测传输错误的校验字段。</p>
+<h3 id="链路层交换机"><a href="#链路层交换机" class="headerlink" title="链路层交换机"></a>链路层交换机</h3><p>交换机接收链路报文和转发它们到指定的输出链路。交换机对于路由器和主机是透明的，它们不会意识到交换机的存在。交换机没有 IP 地址和 MAC 地址。</p>
+<p>交换机的主要功能：</p>
+<ul>
+<li>过滤。交换机可以判断什么帧可以转发，什么帧需要丢弃。</li>
+<li>转发。将接收到的帧转发到某个输出链路。</li>
+</ul>
+<p>交换机的工作原理：</p>
+<ul>
+<li>交换机通过查询转换表（Switch Table）来进行转发。</li>
+<li>如果找到了输出链路，则进行转发；没有找到指定的输出链路，则进行广播。</li>
+</ul>
+<p>交换机为<strong>自学习</strong>的，不需要任何的配置或者干预。对于收到的帧，会在表中存下源地址的MAC地址，到达的接口，时间。为即插即用的设备。</p>
+<p>注意路由器和交换机是两个东西，可以认为路由器横跨了网络层、链路层、物理层，而交换机只跨链路层和物理层。</p>
 
                 
               </div>
@@ -306,8 +329,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>CS144-check7</div>
-      <div>http://example.com/2024/09/30/CS144-check7/</div>
+      <div>计算机网络：链路层</div>
+      <div>http://example.com/2024/10/03/链路层/</div>
     </div>
     <div class="license-meta">
       
@@ -319,7 +342,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2024年9月30日</div>
+          <div>2024年10月3日</div>
         </div>
       
       
@@ -351,18 +374,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2024/10/03/%E9%93%BE%E8%B7%AF%E5%B1%82/" title="计算机网络：链路层">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">计算机网络：链路层</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2024/09/30/CS144-check6/" title="CS144-check6">
-                        <span class="hidden-mobile">CS144-check6</span>
+                      <a href="/2024/09/30/CS144-check7/" title="CS144-check7">
+                        <span class="hidden-mobile">CS144-check7</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
