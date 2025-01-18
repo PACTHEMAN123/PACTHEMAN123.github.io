@@ -28,7 +28,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://rcore-os.cn/rCore-Tutorial-Book-v3/_images/lib-os-detail.png">
 <meta property="article:published_time" content="2025-01-18T02:36:12.000Z">
-<meta property="article:modified_time" content="2025-01-18T02:38:46.353Z">
+<meta property="article:modified_time" content="2025-01-18T02:43:53.468Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="Operating-System">
 <meta name="twitter:card" content="summary_large_image">
@@ -307,7 +307,6 @@
 </ol>
 <p>调用规范是对于一种确定的编程语言来说的，因为一般意义上的函数调用只会在编程语言的内部进行。当一种语言想要调用用另一门编程语言编写的函数接口时，编译器就需要同时清楚两门语言的调用规范，并对寄存器的使用做出调整。</p>
 <p>  <code>sp</code> 寄存器常用来保存 <strong>栈指针</strong> (Stack Pointer)，它指向内存中栈顶地址。在 RISC-V 架构中，栈是从高地址向低地址增长的。在一个函数中，作为起始的开场代码负责分配一块新的栈空间，即将 <code>sp</code> 的值减小相应的字节数即可。对应的物理内存的一部分便可以被这个函数用来进行函数调用上下文的保存&#x2F;恢复，这块物理内存被称为这个函数的 <strong>栈帧</strong> (Stack Frame)。同理，函数中的结尾代码负责将开场代码分配的栈帧回收，这也仅仅需要将 <code>sp</code> 的值增加相同的字节数回到分配之前的状态。这也可以解释为什么 <code>sp</code> 是一个被调用者保存寄存器。</p>
-<p>![[Pasted image 20241117162607.png]]</p>
 <h2 id="SBI"><a href="#SBI" class="headerlink" title="SBI"></a>SBI</h2><p>我们编写的 OS 内核位于 Supervisor 特权级，而 RustSBI 位于 Machine 特权级，也是最高的特权级。类似 RustSBI 这样运行在 Machine 特权级的软件被称为 Supervisor Execution Environment(SEE)，即 Supervisor 执行环境。两层软件之间的接口被称为 Supervisor Binary Interface(SBI)，即 Supervisor 二进制接口。</p>
 <h1 id="动手实现"><a href="#动手实现" class="headerlink" title="动手实现"></a>动手实现</h1><p>先按照指导书的讲解一步步搭建，至于编程题以及实验，似乎延迟完成会更好，评论区有抱怨：花很多时间完成的任务在下一章的指导书上给出了。</p>
 <h2 id="项目全览"><a href="#项目全览" class="headerlink" title="项目全览"></a>项目全览</h2><figure class="highlight 1c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs 1c">.<br>├── bootloader<br>│   └── rustsbi<span class="hljs-punctuation">-</span>qemu.bin<br>└── os<br>	├── .cargo<br>	<span class="hljs-string">|	└── config.toml</span><br>    ├── Cargo.lock<br>    ├── Cargo.toml<br>    ├── src<br>	<span class="hljs-string">|   ├── console.rs</span><br>	<span class="hljs-string">|	├── entry.asm</span><br>	<span class="hljs-string">|	├── lang_items.rs</span><br>	<span class="hljs-string">|	├── linker.ld</span><br>	<span class="hljs-string">|	├── main.rs</span><br>	<span class="hljs-string">|	└── sbi.rs</span><br>    └── target<br></code></pre></td></tr></table></figure>
