@@ -1,0 +1,685 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Xiaopac">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="总体架构  背景知识多道程序操作系统：内存中尽量同时驻留多个应用，这样处理器的利用率就会提高。但只有一个程序执行完毕后或主动放弃执行，处理器才能执行另外一个程序。 aka. 支持 多道程序 或 协作式多任务 的协作式操作系统 代码overview在 批处理系统 的基础上，多道程序的协作式操作系统的区别主要在于：  全部应用都会直接放在内存load_apps()，无需运行时再加载（batch 时需要">
+<meta property="og:type" content="article">
+<meta property="og:title" content="RCore-始初龙">
+<meta property="og:url" content="http://example.com/2025/01/24/RCore-%E5%A7%8B%E5%88%9D%E9%BE%99/index.html">
+<meta property="og:site_name" content="PAC&#39;s Blog">
+<meta property="og:description" content="总体架构  背景知识多道程序操作系统：内存中尽量同时驻留多个应用，这样处理器的利用率就会提高。但只有一个程序执行完毕后或主动放弃执行，处理器才能执行另外一个程序。 aka. 支持 多道程序 或 协作式多任务 的协作式操作系统 代码overview在 批处理系统 的基础上，多道程序的协作式操作系统的区别主要在于：  全部应用都会直接放在内存load_apps()，无需运行时再加载（batch 时需要">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://rcore-os.cn/rCore-Tutorial-Book-v3/_images/jcy-multiprog-os-detail.png">
+<meta property="og:image" content="https://rcore-os.cn/rCore-Tutorial-Book-v3/_images/more-task-multiprog-os-detail.png">
+<meta property="og:image" content="https://rcore-os.cn/rCore-Tutorial-Book-v3/_images/switch.png">
+<meta property="article:published_time" content="2025-01-24T02:29:58.000Z">
+<meta property="article:modified_time" content="2025-01-24T02:31:28.291Z">
+<meta property="article:author" content="Xiaopac">
+<meta property="article:tag" content="Operating-System">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://rcore-os.cn/rCore-Tutorial-Book-v3/_images/jcy-multiprog-os-detail.png">
+  
+  
+  
+  <title>RCore-始初龙 - PAC&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Xiaopac&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/images/bg/wallpaperflare.com_wallpaper.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="RCore-始初龙"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2025-01-24 10:29" pubdate>
+          2025年1月24日 上午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1.4k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          12 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">RCore-始初龙</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="总体架构"><a href="#总体架构" class="headerlink" title="总体架构"></a>总体架构</h1><p><a target="_blank" rel="noopener" href="https://rcore-os.cn/rCore-Tutorial-Book-v3/_images/jcy-multiprog-os-detail.png"><img src="https://rcore-os.cn/rCore-Tutorial-Book-v3/_images/jcy-multiprog-os-detail.png" srcset="/img/loading.gif" lazyload alt="锯齿螈多道程序操作系统 -- Multiprog OS总体结构"></a></p>
+<p><a target="_blank" rel="noopener" href="https://rcore-os.cn/rCore-Tutorial-Book-v3/_images/more-task-multiprog-os-detail.png"><img src="https://rcore-os.cn/rCore-Tutorial-Book-v3/_images/more-task-multiprog-os-detail.png" srcset="/img/loading.gif" lazyload alt="始初龙协作式多道程序操作系统 -- CoopOS总体结构"></a></p>
+<h1 id="背景知识"><a href="#背景知识" class="headerlink" title="背景知识"></a>背景知识</h1><p><strong>多道程序操作系统</strong>：内存中尽量同时驻留多个应用，这样处理器的利用率就会提高。但只有一个程序执行完毕后或主动放弃执行，处理器才能执行另外一个程序。 aka. 支持 <strong>多道程序</strong> 或 <strong>协作式多任务</strong> 的协作式操作系统</p>
+<h1 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h1><h2 id="overview"><a href="#overview" class="headerlink" title="overview"></a>overview</h2><p>在 批处理系统 的基础上，多道程序的协作式操作系统的区别主要在于：</p>
+<ul>
+<li><p>全部应用都会直接放在内存<code>load_apps()</code>，无需运行时再加载（batch 时需要加载到<code>APP_BASE_ADDRESS</code>）。</p>
+</li>
+<li><p><strong>每个应用都有自己的内核&#x2F;用户栈</strong></p>
+</li>
+</ul>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs rust"><span class="hljs-keyword">static</span> KERNEL_STACK: [KernelStack; MAX_APP_NUM] = [KernelStack &#123;<br>    data: [<span class="hljs-number">0</span>; KERNEL_STACK_SIZE],<br>&#125;; MAX_APP_NUM];<br><br><span class="hljs-keyword">static</span> USER_STACK: [UserStack; MAX_APP_NUM] = [UserStack &#123;<br>    data: [<span class="hljs-number">0</span>; USER_STACK_SIZE],<br>&#125;; MAX_APP_NUM];<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>原来<code>batch.rs</code>的大部分加载逻辑放在了<code>loader.rs</code></li>
+</ul>
+<p>为什么不需要修改 <code>trap</code> 文件夹的代码？我认为是因为 <code>trap</code> 只用于<strong>单个app</strong>的内核&#x2F;用户态的切换，而 多个程序的切换 对于 单个 app 是透明的。事实上，多个程序间的切换的逻辑放在<code>task</code>文件夹下。</p>
+<h2 id="rust"><a href="#rust" class="headerlink" title="rust"></a>rust</h2><blockquote>
+<p>需要写一些不熟的 rust 语法知识</p>
+</blockquote>
+<h3 id="lazy-static"><a href="#lazy-static" class="headerlink" title="lazy_static"></a>lazy_static</h3><p>为什么需要 <code>lazy_static!</code>？在 Rust 中，普通的 <code>static</code> 变量必须在编译时初始化，且初始值必须是常量表达式。然而，有些场景下我们需要在运行时初始化静态变量（例如，初始化一个复杂的结构体、动态分配内存、调用函数等）。这时，<code>lazy_static!</code> 就派上用场了。</p>
+<h2 id="task"><a href="#task" class="headerlink" title="task"></a>task</h2><p>本操作系统的重点是：怎么在不同的 app 之间切换？<code>yield</code>的过程？</p>
+<blockquote>
+<p>Just yield, baby.</p>
+</blockquote>
+<h2 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h2><p>比较好奇从系统启动到开始运行 app 发生了什么，什么时候发生 app 的切换？怎么切换？</p>
+<ul>
+<li>进入 <code>rust_main</code>：看第一章的笔记</li>
+<li>进入 trap 模块的<code>init()</code>：设置 trap 处理入口，详情看第二章笔记</li>
+</ul>
+<h3 id="加载apps"><a href="#加载apps" class="headerlink" title="加载apps"></a>加载apps</h3><p>我们会将他们加载到：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs rust"><span class="hljs-comment">/// Get base address of app i.</span><br><span class="hljs-keyword">fn</span> <span class="hljs-title function_">get_base_i</span>(app_id: <span class="hljs-type">usize</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">usize</span> &#123;<br>    APP_BASE_ADDRESS + app_id * APP_SIZE_LIMIT<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>将 app 的二进制文件加载到内存中：<code>src</code> to <code>dst</code>。</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><code class="hljs rust"><span class="hljs-keyword">pub</span> <span class="hljs-keyword">fn</span> <span class="hljs-title function_">load_apps</span>() &#123;<br>    <span class="hljs-keyword">extern</span> <span class="hljs-string">&quot;C&quot;</span> &#123;<br>        <span class="hljs-keyword">fn</span> <span class="hljs-title function_">_num_app</span>();<br>    &#125;<br>    <span class="hljs-keyword">let</span> <span class="hljs-variable">num_app_ptr</span> = _num_app <span class="hljs-keyword">as</span> <span class="hljs-type">usize</span> <span class="hljs-keyword">as</span> *<span class="hljs-keyword">const</span> <span class="hljs-type">usize</span>;<br>    <span class="hljs-keyword">let</span> <span class="hljs-variable">num_app</span> = <span class="hljs-title function_ invoke__">get_num_app</span>();<br>    <span class="hljs-keyword">let</span> <span class="hljs-variable">app_start</span> = <span class="hljs-keyword">unsafe</span> &#123; core::slice::<span class="hljs-title function_ invoke__">from_raw_parts</span>(num_app_ptr.<span class="hljs-title function_ invoke__">add</span>(<span class="hljs-number">1</span>), num_app + <span class="hljs-number">1</span>) &#125;;<br>    <span class="hljs-comment">// load apps</span><br>    <span class="hljs-keyword">for</span> <span class="hljs-variable">i</span> <span class="hljs-keyword">in</span> <span class="hljs-number">0</span>..num_app &#123;<br>        <span class="hljs-keyword">let</span> <span class="hljs-variable">base_i</span> = <span class="hljs-title function_ invoke__">get_base_i</span>(i);<br>        <span class="hljs-comment">// clear region</span><br>        (base_i..base_i + APP_SIZE_LIMIT)<br>            .for_each(|addr| <span class="hljs-keyword">unsafe</span> &#123; (addr <span class="hljs-keyword">as</span> *<span class="hljs-keyword">mut</span> <span class="hljs-type">u8</span>).<span class="hljs-title function_ invoke__">write_volatile</span>(<span class="hljs-number">0</span>) &#125;);<br>        <span class="hljs-comment">// load app from data section to memory</span><br>        <span class="hljs-keyword">let</span> <span class="hljs-variable">src</span> = <span class="hljs-keyword">unsafe</span> &#123;<br>            core::slice::<span class="hljs-title function_ invoke__">from_raw_parts</span>(app_start[i] <span class="hljs-keyword">as</span> *<span class="hljs-keyword">const</span> <span class="hljs-type">u8</span>, app_start[i + <span class="hljs-number">1</span>] - app_start[i])<br>        &#125;;<br>        <span class="hljs-keyword">let</span> <span class="hljs-variable">dst</span> = <span class="hljs-keyword">unsafe</span> &#123; core::slice::<span class="hljs-title function_ invoke__">from_raw_parts_mut</span>(base_i <span class="hljs-keyword">as</span> *<span class="hljs-keyword">mut</span> <span class="hljs-type">u8</span>, src.<span class="hljs-title function_ invoke__">len</span>()) &#125;;<br>        dst.<span class="hljs-title function_ invoke__">copy_from_slice</span>(src);<br>    &#125;<br>    <br>    <span class="hljs-keyword">unsafe</span> &#123;<br>        asm!(<span class="hljs-string">&quot;fence.i&quot;</span>);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>这部分与前一章的内容略有不同：我们需要加载全部的app。至于怎么从脚本得到汇编代码，从汇编代码中得到 app数量和起止位置等，和前一章基本一样。</p>
+<h3 id="进入第一个-app-的用户态"><a href="#进入第一个-app-的用户态" class="headerlink" title="进入第一个 app 的用户态"></a>进入第一个 app 的用户态</h3><p>我们需要先关注<code>TaskManager</code>创建初始化时干了什么：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><code class="hljs rust">lazy_static! &#123;<br>    <span class="hljs-comment">/// Global variable: TASK_MANAGER</span><br>    <span class="hljs-keyword">pub</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">ref</span> TASK_MANAGER: TaskManager = &#123;<br>        <span class="hljs-keyword">let</span> <span class="hljs-variable">num_app</span> = <span class="hljs-title function_ invoke__">get_num_app</span>();<br>        <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">tasks</span> = [TaskControlBlock &#123;<br>            task_cx: TaskContext::<span class="hljs-title function_ invoke__">zero_init</span>(),<br>            task_status: TaskStatus::UnInit,<br>        &#125;; MAX_APP_NUM];<br>        <span class="hljs-keyword">for</span> (i, task) <span class="hljs-keyword">in</span> tasks.<span class="hljs-title function_ invoke__">iter_mut</span>().<span class="hljs-title function_ invoke__">enumerate</span>() &#123;<br>            task.task_cx = TaskContext::<span class="hljs-title function_ invoke__">goto_restore</span>(<span class="hljs-title function_ invoke__">init_app_cx</span>(i));<br>            task.task_status = TaskStatus::Ready;<br>        &#125;<br>        TaskManager &#123;<br>            num_app,<br>            inner: <span class="hljs-keyword">unsafe</span> &#123;<br>                UPSafeCell::<span class="hljs-title function_ invoke__">new</span>(TaskManagerInner &#123;<br>                    tasks,<br>                    current_task: <span class="hljs-number">0</span>,<br>                &#125;)<br>            &#125;,<br>        &#125;<br>    &#125;;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>可以看到，它设置好了每个 app 的上下文，并将状态都设为<code>ready</code>，并开始 task0，我们再深入进去：app的上下文是怎么初始化的：<code>goto_restore(init_app_cx(i))</code>发生了什么。</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><code class="hljs rust"><span class="hljs-comment">// in loader.rs</span><br><span class="hljs-keyword">pub</span> <span class="hljs-keyword">fn</span> <span class="hljs-title function_">init_app_cx</span>(app_id: <span class="hljs-type">usize</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">usize</span> &#123;<br>    KERNEL_STACK[app_id].<span class="hljs-title function_ invoke__">push_context</span>(TrapContext::<span class="hljs-title function_ invoke__">app_init_context</span>(<br>        <span class="hljs-title function_ invoke__">get_base_i</span>(app_id),<br>        USER_STACK[app_id].<span class="hljs-title function_ invoke__">get_sp</span>(),<br>    ))<br>&#125;<br><br><span class="hljs-comment">// in trap/context.rs</span><br><span class="hljs-keyword">impl</span> <span class="hljs-title class_">TrapContext</span> &#123;<br>    <span class="hljs-comment">/// set stack pointer to x_2 reg (sp)</span><br>    <span class="hljs-keyword">pub</span> <span class="hljs-keyword">fn</span> <span class="hljs-title function_">set_sp</span>(&amp;<span class="hljs-keyword">mut</span> <span class="hljs-keyword">self</span>, sp: <span class="hljs-type">usize</span>) &#123;<br>        <span class="hljs-keyword">self</span>.x[<span class="hljs-number">2</span>] = sp;<br>    &#125;<br>    <span class="hljs-comment">/// init app context</span><br>    <span class="hljs-keyword">pub</span> <span class="hljs-keyword">fn</span> <span class="hljs-title function_">app_init_context</span>(entry: <span class="hljs-type">usize</span>, sp: <span class="hljs-type">usize</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-keyword">Self</span> &#123;<br>        <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">sstatus</span> = sstatus::<span class="hljs-title function_ invoke__">read</span>(); <span class="hljs-comment">// CSR sstatus</span><br>        sstatus.<span class="hljs-title function_ invoke__">set_spp</span>(SPP::User); <span class="hljs-comment">//previous privilege mode: user mode</span><br>        <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">cx</span> = <span class="hljs-keyword">Self</span> &#123;<br>            x: [<span class="hljs-number">0</span>; <span class="hljs-number">32</span>],<br>            sstatus,<br>            sepc: entry, <span class="hljs-comment">// entry point of app</span><br>        &#125;;<br>        cx.<span class="hljs-title function_ invoke__">set_sp</span>(sp); <span class="hljs-comment">// app&#x27;s user stack pointer</span><br>        cx <span class="hljs-comment">// return initial Trap Context of app</span><br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>可以看到，在<code>init_app_cx</code>中，我们根据该 app 的 base address 来设置其 TrapContext 的中入口寄存器<code>sepc</code>，根据该 app 的用户栈的地址来设置其 TrapContext 中的栈顶寄存器<code>x2</code>，并将该构造好的 TrapContext 推入内核栈，返回指向该上下文的指针（见<code>push_context</code>）。</p>
+<p><code>goto_restore</code>接收了该指针，并构造对应的 TaskContext：将返回地址<code>ra</code>设置为<code>__restore</code>，将<code>sp</code>设置为 TrapContext 的地址，初始化<code>s0..s11</code></p>
+<p>至此，完成对所有 task 的初始化。我们再看看<code>run_first_task</code>是怎么启动第一个 app 的：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs rust"><span class="hljs-keyword">fn</span> <span class="hljs-title function_">run_first_task</span>(&amp;<span class="hljs-keyword">self</span>) <span class="hljs-punctuation">-&gt;</span> ! &#123;<br>    <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">inner</span> = <span class="hljs-keyword">self</span>.inner.<span class="hljs-title function_ invoke__">exclusive_access</span>();<br>    <span class="hljs-keyword">let</span> <span class="hljs-variable">task0</span> = &amp;<span class="hljs-keyword">mut</span> inner.tasks[<span class="hljs-number">0</span>];<br>    task0.task_status = TaskStatus::Running;<br>    <span class="hljs-keyword">let</span> <span class="hljs-variable">next_task_cx_ptr</span> = &amp;task0.task_cx <span class="hljs-keyword">as</span> *<span class="hljs-keyword">const</span> TaskContext;<br>    <span class="hljs-title function_ invoke__">drop</span>(inner);<br>    <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">_unused</span> = TaskContext::<span class="hljs-title function_ invoke__">zero_init</span>();<br>    <span class="hljs-comment">// before this, we should drop local variables that must be dropped manually</span><br>    <span class="hljs-keyword">unsafe</span> &#123;<br>        __switch(&amp;<span class="hljs-keyword">mut</span> _unused <span class="hljs-keyword">as</span> *<span class="hljs-keyword">mut</span> TaskContext, next_task_cx_ptr);<br>    &#125;<br>    <span class="hljs-built_in">panic!</span>(<span class="hljs-string">&quot;unreachable in run_first_task!&quot;</span>);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p><code>TaskManager</code>同<code>AppManager</code>一样，是全局变量。我们需要先获得互斥的访问权。我们构造了一个不存在的 task：<code>_unused</code>，并切换到 task0，由于我们之前已经设置好入口、trap 的上下文等，可以顺利开始 task0</p>
+<h3 id="switch"><a href="#switch" class="headerlink" title="switch"></a>switch</h3><p>当一个 app 调用 yield 时，进入内核态，<code>TaskManager</code>会根据各个应用的状态来调度（<code>run_next_task()</code>），然后调用 <code>__switch</code> 来切换应用。</p>
+<p>值得注意的是，<code>__switch</code>只会在内核态被调用，所以实际上它切换的是不同应用的内核栈空间，在进入新的内核栈后，再通过该内核栈上保存的值来到达新的应用。</p>
+<p>其实到这里基本可以猜出我们是怎么换 task 的了：</p>
+<ul>
+<li>A应用发出切换请求<code>sys_yield</code> 或者<code>sys_exit</code></li>
+<li>进入 trap：保存A用户栈，切换A内核栈，A用户态的上下文放在A内核栈。执行 syscall，最终调用<code>run_next_task</code></li>
+<li>使用<code>__switch</code>，交换 TaskContext，将新应用的 TaskContext 放入现在的寄存器（<code>ra</code>、<code>sp</code>、<code>s0..s11</code>），实际上等于切换到B内核栈</li>
+<li>回忆之前<code>ra</code>中放的是<code>__restore</code>的地址，<code>sp</code>放的是B内核栈中保存的B用户态的上下文<code>TrapContext</code>，效果是：<code>run_next_task</code>结束后，使用<code>ra</code>跳转到<code>__restore</code>，后者使用<code>sp</code>指向的内容，恢复到B用户态</li>
+</ul>
+<p><a target="_blank" rel="noopener" href="https://rcore-os.cn/rCore-Tutorial-Book-v3/_images/switch.png"><img src="https://rcore-os.cn/rCore-Tutorial-Book-v3/_images/switch.png" srcset="/img/loading.gif" lazyload alt="switch"></a></p>
+<blockquote>
+<p>下一个操作系统：使用时钟让时间暂停！</p>
+</blockquote>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Operating-System/" class="print-no-link">#Operating-System</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>RCore-始初龙</div>
+      <div>http://example.com/2025/01/24/RCore-始初龙/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Xiaopac</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2025年1月24日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2025/01/18/RCore-%E9%82%93%E6%B0%8F%E9%B1%BC/" title="RCore-邓氏鱼">
+                        <span class="hidden-mobile">RCore-邓氏鱼</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
