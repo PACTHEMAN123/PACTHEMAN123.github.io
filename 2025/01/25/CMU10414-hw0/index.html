@@ -19,15 +19,15 @@
   <meta name="author" content="Xiaopac">
   <meta name="keywords" content="">
   
-    <meta name="description" content="环境每次断线重连可能需要重新配置环境：  mount google drive pip3 install *  修改工作路径： 1%cd &#x2F;content&#x2F;drive&#x2F;MyDrive&#x2F;10714&#x2F;hw0   add12def add(x, y):        return x + y  parse_mnist手动解析 mnist 数据集： 1234567891011121314def parse">
+    <meta name="description" content="overviewhw0 简单回顾了机器学习的基础，看了 lec01-03 就可以开始完成。本人为 0基础 机器学习选手，花了不少时间熟悉矩阵运算和一些 python 的矩阵操作。hw0 是进入开发needle前的热身，并不算难。关于计算梯度等的求导过程，在 lec 中会简单过一遍，最后直接使用简化后的公式即可（ Kotlin说这样hacky 一点，因为没有人会在实际的计算过程中使用严格的求导过程）">
 <meta property="og:type" content="article">
 <meta property="og:title" content="CMU10414-hw0">
 <meta property="og:url" content="http://example.com/2025/01/25/CMU10414-hw0/index.html">
 <meta property="og:site_name" content="PAC&#39;s Blog">
-<meta property="og:description" content="环境每次断线重连可能需要重新配置环境：  mount google drive pip3 install *  修改工作路径： 1%cd &#x2F;content&#x2F;drive&#x2F;MyDrive&#x2F;10714&#x2F;hw0   add12def add(x, y):        return x + y  parse_mnist手动解析 mnist 数据集： 1234567891011121314def parse">
+<meta property="og:description" content="overviewhw0 简单回顾了机器学习的基础，看了 lec01-03 就可以开始完成。本人为 0基础 机器学习选手，花了不少时间熟悉矩阵运算和一些 python 的矩阵操作。hw0 是进入开发needle前的热身，并不算难。关于计算梯度等的求导过程，在 lec 中会简单过一遍，最后直接使用简化后的公式即可（ Kotlin说这样hacky 一点，因为没有人会在实际的计算过程中使用严格的求导过程）">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2025-01-25T07:35:44.000Z">
-<meta property="article:modified_time" content="2025-01-25T07:36:19.220Z">
+<meta property="article:modified_time" content="2025-01-27T04:37:25.256Z">
 <meta property="article:author" content="Xiaopac">
 <meta property="article:tag" content="Machine-Learning-Systems">
 <meta name="twitter:card" content="summary_large_image">
@@ -223,7 +223,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          975 字
+          1.2k 字
         
       </span>
     
@@ -234,7 +234,7 @@
         
         
         
-          9 分钟
+          11 分钟
         
       </span>
     
@@ -276,15 +276,13 @@
             
               <div class="markdown-body">
                 
-                <h2 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h2><p>每次断线重连可能需要重新配置环境：</p>
+                <h2 id="overview"><a href="#overview" class="headerlink" title="overview"></a>overview</h2><p>hw0 简单回顾了机器学习的基础，看了 lec01-03 就可以开始完成。本人为 0基础 机器学习选手，花了不少时间熟悉矩阵运算和一些 python 的矩阵操作。hw0 是进入开发<code>needle</code>前的热身，并不算难。关于计算梯度等的求导过程，在 lec 中会简单过一遍，最后直接使用简化后的公式即可（ Kotlin说这样hacky 一点，因为没有人会在实际的计算过程中使用严格的求导过程）。</p>
+<h2 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h2><p>作业的检测平台使用 colab，作为非会员，经常会断线。每次断线重连可能需要重新配置环境：（插入代码块并运行）</p>
 <ul>
-<li>mount google drive</li>
-<li>pip3 install *</li>
+<li>挂载<code>google drive</code> <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> google.colab <span class="hljs-keyword">import</span> drive<br>drive.mount(<span class="hljs-string">&#x27;/content/drive&#x27;</span>)<br></code></pre></td></tr></table></figure></li>
+<li>进入工作路径（假设drive中已经有文件夹）<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">%cd /content/drive/MyDrive/<span class="hljs-number">10714</span>/hw0<br></code></pre></td></tr></table></figure></li>
+<li>下载必要依赖：<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python">!pip3 install --upgrade --no-deps git+https://github.com/dlsyscourse/mugrade.git<br>!pip3 install pybind11<br>!pip3 install numdifftools<br></code></pre></td></tr></table></figure></li>
 </ul>
-<p>修改工作路径：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">%<span class="hljs-built_in">cd</span> /content/drive/MyDrive/10714/hw0<br></code></pre></td></tr></table></figure>
-
-
 <h2 id="add"><a href="#add" class="headerlink" title="add"></a>add</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">add</span>(<span class="hljs-params">x, y</span>):    <br>    <span class="hljs-keyword">return</span> x + y<br></code></pre></td></tr></table></figure>
 
 <h2 id="parse-mnist"><a href="#parse-mnist" class="headerlink" title="parse_mnist"></a>parse_mnist</h2><p>手动解析 mnist 数据集：</p>
@@ -402,7 +400,7 @@
 <td>0.07970</td>
 </tr>
 </tbody></table>
-<p>python 版本的神经网络</p>
+<p>python 版本的神经网络：可以看到<code>Test Err</code>显然低于前者，说明我们引入的非线性因素，的确显著提高了分辨的正确率。</p>
 <table>
 <thead>
 <tr>
@@ -636,6 +634,9 @@
 <td>0.07970</td>
 </tr>
 </tbody></table>
+<blockquote>
+<p>move on !</p>
+</blockquote>
 
                 
               </div>
