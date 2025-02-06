@@ -22,7 +22,7 @@
     <meta name="description" content="总体架构  背景知识多道程序操作系统：内存中尽量同时驻留多个应用，这样处理器的利用率就会提高。但只有一个程序执行完毕后或主动放弃执行，处理器才能执行另外一个程序。 aka. 支持 多道程序 或 协作式多任务 的协作式操作系统 代码overview在 批处理系统 的基础上，多道程序的协作式操作系统的区别主要在于：  全部应用都会直接放在内存load_apps()，无需运行时再加载（batch 时需要">
 <meta property="og:type" content="article">
 <meta property="og:title" content="RCore-始初龙">
-<meta property="og:url" content="http://example.com/2025/01/24/RCore-%E5%A7%8B%E5%88%9D%E9%BE%99/index.html">
+<meta property="og:url" content="https://pactheman123.github.io/2025/01/24/RCore-%E5%A7%8B%E5%88%9D%E9%BE%99/index.html">
 <meta property="og:site_name" content="PAC&#39;s Blog">
 <meta property="og:description" content="总体架构  背景知识多道程序操作系统：内存中尽量同时驻留多个应用，这样处理器的利用率就会提高。但只有一个程序执行完毕后或主动放弃执行，处理器才能执行另外一个程序。 aka. 支持 多道程序 或 协作式多任务 的协作式操作系统 代码overview在 批处理系统 的基础上，多道程序的协作式操作系统的区别主要在于：  全部应用都会直接放在内存load_apps()，无需运行时再加载（batch 时需要">
 <meta property="og:locale" content="zh_CN">
@@ -37,6 +37,8 @@
 <meta name="twitter:image" content="https://rcore-os.cn/rCore-Tutorial-Book-v3/_images/jcy-multiprog-os-detail.png">
   
   
+  
+    <link rel="stylesheet" href="https://npm.elemecdn.com/lxgw-wenkai-screen-webfont/style.css" media="print" onload="this.media='all'">
   
   <title>RCore-始初龙 - PAC&#39;s Blog</title>
 
@@ -72,11 +74,15 @@
 
 
 
+  
+<link rel="stylesheet" href="/css/custom.css">
+
+
 
   <script id="fluid-configs">
     var Fluid = window.Fluid || {};
     Fluid.ctx = Object.assign({}, Fluid.ctx)
-    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+    var CONFIG = {"hostname":"pactheman123.github.io","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
 
     if (CONFIG.web_analytics.follow_dnt) {
       var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
@@ -366,7 +372,7 @@
   <div class="license-box my-3">
     <div class="license-title">
       <div>RCore-始初龙</div>
-      <div>http://example.com/2025/01/24/RCore-始初龙/</div>
+      <div>https://pactheman123.github.io/2025/01/24/RCore-始初龙/</div>
     </div>
     <div class="license-meta">
       

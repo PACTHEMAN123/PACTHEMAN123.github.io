@@ -22,7 +22,7 @@
     <meta name="description" content="intro多线程共享相同的地址空间，但有不同的程序计数器和栈。 并发会引发十分多糟糕的问题，且人类的线性思维，适合观测串行运行的程序而非并行运行的程序，所以处理并发十分困难。详细的例子可以看jyy的os课体验一下并发互斥 临界区，(critical section)是指访问共享资源的代码。当多个线程同时进入临界区时，可能就会出现竞争条件(race condition)，导致计算机运行的结果具有不确">
 <meta property="og:type" content="article">
 <meta property="og:title" content="操作系统：并发">
-<meta property="og:url" content="http://example.com/2024/08/30/%E5%B9%B6%E5%8F%91/index.html">
+<meta property="og:url" content="https://pactheman123.github.io/2024/08/30/%E5%B9%B6%E5%8F%91/index.html">
 <meta property="og:site_name" content="PAC&#39;s Blog">
 <meta property="og:description" content="intro多线程共享相同的地址空间，但有不同的程序计数器和栈。 并发会引发十分多糟糕的问题，且人类的线性思维，适合观测串行运行的程序而非并行运行的程序，所以处理并发十分困难。详细的例子可以看jyy的os课体验一下并发互斥 临界区，(critical section)是指访问共享资源的代码。当多个线程同时进入临界区时，可能就会出现竞争条件(race condition)，导致计算机运行的结果具有不确">
 <meta property="og:locale" content="zh_CN">
@@ -33,6 +33,8 @@
 <meta name="twitter:card" content="summary_large_image">
   
   
+  
+    <link rel="stylesheet" href="https://npm.elemecdn.com/lxgw-wenkai-screen-webfont/style.css" media="print" onload="this.media='all'">
   
   <title>操作系统：并发 - PAC&#39;s Blog</title>
 
@@ -68,11 +70,15 @@
 
 
 
+  
+<link rel="stylesheet" href="/css/custom.css">
+
+
 
   <script id="fluid-configs">
     var Fluid = window.Fluid || {};
     Fluid.ctx = Object.assign({}, Fluid.ctx)
-    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+    var CONFIG = {"hostname":"pactheman123.github.io","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
 
     if (CONFIG.web_analytics.follow_dnt) {
       var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
@@ -355,7 +361,7 @@
   <div class="license-box my-3">
     <div class="license-title">
       <div>操作系统：并发</div>
-      <div>http://example.com/2024/08/30/并发/</div>
+      <div>https://pactheman123.github.io/2024/08/30/并发/</div>
     </div>
     <div class="license-meta">
       

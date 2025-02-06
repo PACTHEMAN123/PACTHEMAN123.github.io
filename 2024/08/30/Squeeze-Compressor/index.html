@@ -22,7 +22,7 @@
     <meta name="description" content="overview核心的想法是：对于可精确预测的数据，通过曲线拟合；对于难以合适预测的数据，通过二进制表示的分析来进行有损压缩。 implement压缩前需要的三个参数：绝对误差范围、相对误差范围、压缩率 以下是压缩的具体算法： convert array通过实验发现，建立曲线是压缩中最大的时间开销。鉴于有较低的转换开销、良好地保留了局部性的两个优势，使用数据数组原来在内存中的序列用来压缩会更好。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Squeeze Compressor">
-<meta property="og:url" content="http://example.com/2024/08/30/Squeeze-Compressor/index.html">
+<meta property="og:url" content="https://pactheman123.github.io/2024/08/30/Squeeze-Compressor/index.html">
 <meta property="og:site_name" content="PAC&#39;s Blog">
 <meta property="og:description" content="overview核心的想法是：对于可精确预测的数据，通过曲线拟合；对于难以合适预测的数据，通过二进制表示的分析来进行有损压缩。 implement压缩前需要的三个参数：绝对误差范围、相对误差范围、压缩率 以下是压缩的具体算法： convert array通过实验发现，建立曲线是压缩中最大的时间开销。鉴于有较低的转换开销、良好地保留了局部性的两个优势，使用数据数组原来在内存中的序列用来压缩会更好。">
 <meta property="og:locale" content="zh_CN">
@@ -33,6 +33,8 @@
 <meta name="twitter:card" content="summary_large_image">
   
   
+  
+    <link rel="stylesheet" href="https://npm.elemecdn.com/lxgw-wenkai-screen-webfont/style.css" media="print" onload="this.media='all'">
   
   <title>Squeeze Compressor - PAC&#39;s Blog</title>
 
@@ -68,11 +70,15 @@
 
 
 
+  
+<link rel="stylesheet" href="/css/custom.css">
+
+
 
   <script id="fluid-configs">
     var Fluid = window.Fluid || {};
     Fluid.ctx = Object.assign({}, Fluid.ctx)
-    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+    var CONFIG = {"hostname":"pactheman123.github.io","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
 
     if (CONFIG.web_analytics.follow_dnt) {
       var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
@@ -330,7 +336,7 @@
   <div class="license-box my-3">
     <div class="license-title">
       <div>Squeeze Compressor</div>
-      <div>http://example.com/2024/08/30/Squeeze-Compressor/</div>
+      <div>https://pactheman123.github.io/2024/08/30/Squeeze-Compressor/</div>
     </div>
     <div class="license-meta">
       

@@ -22,7 +22,7 @@
     <meta name="description" content="概述运行链路层协议的任何设备称为节点，沿着通信路径连接相邻节点的信道称为链路。链路层的主体部分在网络适配器中实现，也叫网络接口卡。即NIC。链路层部分需要通过软件实现，比如响应中断、处理差错、传递给网络层。 差错检测和纠正技术奇偶校验对于一段长为d bit的数据，加上一个检验的bit，使得这d+1个bit有偶数个1。显然，当d个bit里面只有一个地方出现差错，可以发现且纠正，但对于两个差错的话就无">
 <meta property="og:type" content="article">
 <meta property="og:title" content="计算机网络：链路层">
-<meta property="og:url" content="http://example.com/2024/10/03/%E9%93%BE%E8%B7%AF%E5%B1%82/index.html">
+<meta property="og:url" content="https://pactheman123.github.io/2024/10/03/%E9%93%BE%E8%B7%AF%E5%B1%82/index.html">
 <meta property="og:site_name" content="PAC&#39;s Blog">
 <meta property="og:description" content="概述运行链路层协议的任何设备称为节点，沿着通信路径连接相邻节点的信道称为链路。链路层的主体部分在网络适配器中实现，也叫网络接口卡。即NIC。链路层部分需要通过软件实现，比如响应中断、处理差错、传递给网络层。 差错检测和纠正技术奇偶校验对于一段长为d bit的数据，加上一个检验的bit，使得这d+1个bit有偶数个1。显然，当d个bit里面只有一个地方出现差错，可以发现且纠正，但对于两个差错的话就无">
 <meta property="og:locale" content="zh_CN">
@@ -33,6 +33,8 @@
 <meta name="twitter:card" content="summary_large_image">
   
   
+  
+    <link rel="stylesheet" href="https://npm.elemecdn.com/lxgw-wenkai-screen-webfont/style.css" media="print" onload="this.media='all'">
   
   <title>计算机网络：链路层 - PAC&#39;s Blog</title>
 
@@ -68,11 +70,15 @@
 
 
 
+  
+<link rel="stylesheet" href="/css/custom.css">
+
+
 
   <script id="fluid-configs">
     var Fluid = window.Fluid || {};
     Fluid.ctx = Object.assign({}, Fluid.ctx)
-    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+    var CONFIG = {"hostname":"pactheman123.github.io","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
 
     if (CONFIG.web_analytics.follow_dnt) {
       var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
@@ -330,7 +336,7 @@
   <div class="license-box my-3">
     <div class="license-title">
       <div>计算机网络：链路层</div>
-      <div>http://example.com/2024/10/03/链路层/</div>
+      <div>https://pactheman123.github.io/2024/10/03/链路层/</div>
     </div>
     <div class="license-meta">
       
