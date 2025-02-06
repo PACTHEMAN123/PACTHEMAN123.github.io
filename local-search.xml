@@ -4,6 +4,25 @@
   
   
   <entry>
+    <title>工具流美化</title>
+    <link href="/2025/02/06/%E5%B7%A5%E5%85%B7%E6%B5%81%E7%BE%8E%E5%8C%96/"/>
+    <url>/2025/02/06/%E5%B7%A5%E5%85%B7%E6%B5%81%E7%BE%8E%E5%8C%96/</url>
+    
+    <content type="html"><![CDATA[<h2 id="起因"><a href="#起因" class="headerlink" title="起因"></a>起因</h2><p>今天完成了一些工作，比较满意，奖励自己一些时间摸鱼。突然看到我的 obsidian，觉得当前字体真的让人没有输出的欲望，想试着让它看起来更漂亮。由此引发对我的几个主力工具的美化。</p><h2 id="具体工作"><a href="#具体工作" class="headerlink" title="具体工作"></a>具体工作</h2><p>我的工作流：</p><ul><li>知识库&#x2F;笔记：obsidian</li><li>编辑器：Visual Studio Code</li><li>个人总结&#x2F;思考：Notion</li><li>终端：iterm2</li><li>输出：知乎&#x2F;个人博客</li></ul><p>秉持着能用默认就用默认的原则，我并未对 notion 美化（我觉得它本身就挺好看的）。其他工具的美化也是尽量简单。同时，知乎显然是无法美化的。</p><h3 id="iterm2-美化"><a href="#iterm2-美化" class="headerlink" title="iterm2 美化"></a>iterm2 美化</h3><ul><li>添加彩色状态条：显示内存、网络、CPU、git 所在分支</li><li>添加自动补全插件 <a href="https://github.com/zsh-users/zsh-autosuggestions">zsh-autosuggestions</a></li><li>添加命令高亮插件 <a href="https://github.com/zsh-users/zsh-syntax-highlighting">zsh-syntax-highlighting</a></li></ul><p>后两条实际上是在美化 zsh（）。</p><p>效果图：</p><p><img src="/images/202502/iterm2.png"></p><h3 id="vscode-美化"><a href="#vscode-美化" class="headerlink" title="vscode 美化"></a>vscode 美化</h3><ul><li>第一步是改变字体，这里使用的是<code>Fira Code</code>，具体怎么操作，简单 google 即可。老人家眼睛不好，我还把字体稍微加粗了。</li></ul><blockquote><p>why Fira Code<br>本人最近常用语言为 rust &#x2F; cpp &#x2F; c，会有大量的 -&gt; ++ 等运算符，Fira Code 会将这些符号渲染成一个整体，方便阅读</p></blockquote><ul><li>第二步：改变主题。之前使用 <code>Dracula</code> 的主题，感觉太刺眼了。想选择一个有一些霓虹感、磨砂感的主题，找了一圈 <code>Night Owl</code> 感觉不错。</li><li>第三步：加入<code>Material Icon Theme</code>，使得左侧文件夹视图的图标更丰富（ <del>为了更像 neovim</del> ）</li></ul><p>效果：</p><p><img src="/images/202502/vscode.png"></p><h3 id="obsidian-美化"><a href="#obsidian-美化" class="headerlink" title="obsidian 美化"></a>obsidian 美化</h3><ul><li>改变字体：选择了<em>霞鹜文楷</em>，这款字体看着很清秀，搭配 obsidian 这种强文本软件，十分不错！至少让我更有码字的欲望了。</li><li>改变主题：选择 <em>Things</em></li></ul><p>效果：</p><p><img src="/images/202502/obsidian.png"></p><h3 id="博客美化"><a href="#博客美化" class="headerlink" title="博客美化"></a>博客美化</h3><ul><li>只是修改字体</li></ul><p>由于 <em>霞鹜文楷</em> 并非系统自带字体，需要通过自定义功能来引入：</p><ol><li>在 <code>source</code> 文件夹下，添加<code>css/custom.css</code>，内容如下：<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs css"><span class="hljs-selector-tag">html</span>, <span class="hljs-selector-tag">body</span>, <span class="hljs-selector-class">.markdown-body</span>, <span class="hljs-selector-tag">p</span> &#123;<br>    <span class="hljs-attribute">font-family</span>: <span class="hljs-string">&#x27;LXGW WenKai Screen&#x27;</span>;<br>&#125;<br></code></pre></td></tr></table></figure></li><li>在 <code>_config.fluid.yml</code> 中，加入：<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs yml"><span class="hljs-comment"># 自定义 &lt;head&gt; 节点中的 HTML 内容</span><br><span class="hljs-attr">custom_head:</span> <span class="hljs-string">&lt;link</span> <span class="hljs-string">rel=&quot;stylesheet&quot;</span> <span class="hljs-string">href=&quot;https://npm.elemecdn.com/lxgw-wenkai-screen-webfont/style.css&quot;</span> <span class="hljs-string">media=&quot;print&quot;</span> <span class="hljs-string">onload=&quot;this.media=&#x27;all&#x27;&quot;&gt;</span><br></code></pre></td></tr></table></figure></li><li>修改<code>_config.fluid.yml</code>中关于字体的配置：<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs yml"><span class="hljs-comment"># 主题字体配置</span><br><span class="hljs-comment"># Font</span><br><span class="hljs-attr">font:</span><br>  <span class="hljs-attr">font_size:</span> <span class="hljs-string">18px</span><br>  <span class="hljs-attr">font_family:</span> <span class="hljs-string">&quot;LXGW Wenkai Screen&quot;</span><br>  <span class="hljs-attr">letter_spacing:</span> <span class="hljs-number">0.</span><span class="hljs-string">02em</span><br>  <span class="hljs-attr">code_font_size:</span> <span class="hljs-number">85</span><span class="hljs-string">%</span> <br></code></pre></td></tr></table></figure></li></ol><h3 id="else"><a href="#else" class="headerlink" title="else"></a>else</h3><p>到现在才发现外接显示屏的帧数和色彩效果都没拉满，调好之后，比原来丝滑多了。</p><h2 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h2><blockquote><p><strong>工欲善其事，必先利其器</strong></p></blockquote><p>看着顺眼的工具会让效率更高，所以偶尔花些时间来折腾还是不错的。</p>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>Tools</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>RCore-头甲龙</title>
     <link href="/2025/02/06/RCore-%E5%A4%B4%E7%94%B2%E9%BE%99/"/>
     <url>/2025/02/06/RCore-%E5%A4%B4%E7%94%B2%E9%BE%99/</url>
