@@ -4,6 +4,25 @@
   
   
   <entry>
+    <title>如何阅读源码</title>
+    <link href="/2025/02/09/%E5%A6%82%E4%BD%95%E9%98%85%E8%AF%BB%E6%BA%90%E7%A0%81/"/>
+    <url>/2025/02/09/%E5%A6%82%E4%BD%95%E9%98%85%E8%AF%BB%E6%BA%90%E7%A0%81/</url>
+    
+    <content type="html"><![CDATA[<h1 id="阅读目的"><a href="#阅读目的" class="headerlink" title="阅读目的"></a>阅读目的</h1><p>不同目标，你看代码的策略是不一样的。</p><ul><li><p>粗看：若目标是了解代码结构、模块间耦合及组合方式，仅需查看目录结构与模块组合，无需深入代码上下文关注细节。</p></li><li><p>细看：当目标是知晓模块内部设计，如具体算法细节实现时，需采用细看策略，通过一步步调试来研究代码。</p></li></ul><h1 id="阅读顺序"><a href="#阅读顺序" class="headerlink" title="阅读顺序"></a>阅读顺序</h1><blockquote><p>明确目的之后，我们就要开始阅读了，这部分我推荐的步骤是：<strong>自顶向下，反复阅读</strong>。</p></blockquote><h2 id="自顶向下"><a href="#自顶向下" class="headerlink" title="自顶向下"></a>自顶向下</h2><p>阅读源码本质上是让我们的大脑构建出整个系统。但我们的大脑的<strong>运行内存</strong>基本上难以一次装下全部逻辑。一种比较好的认知方式是通过<strong>分层抽象</strong>。</p><p>一般来说，我们会聚焦在一个层上，研究其细节（用我们大脑的运行内存），压缩成概念&#x2F;或者说是抽象（Layers of abstraction），并将其存储到长期记忆中（笔记&#x2F;大脑长期记忆）。</p><p>这种方法&#x2F;思想，同样广泛运用在计算机世界。</p><h2 id="多次阅读"><a href="#多次阅读" class="headerlink" title="多次阅读"></a>多次阅读</h2><p>在大脑运行内存有限的情况下，后面读到的细节会不断覆盖前面读懂的细节。并不能指望单次阅读就掌握全部内容。</p><p>前几次的阅读，需要建立起几个概念的<strong>黑箱</strong>，放入长期记忆。后几次阅读，不断回想并给黑箱填入信息，直到打开黑箱。</p><p>多次阅读，加深理解和记忆，最终产生深刻认知。</p><h1 id="阅读技巧"><a href="#阅读技巧" class="headerlink" title="阅读技巧"></a>阅读技巧</h1><h2 id="从初版开始"><a href="#从初版开始" class="headerlink" title="从初版开始"></a>从初版开始</h2><p>当我们聚焦于源代码的设计、原理、演化时，可以去看其早期版本。早期版本一般比较简单，值得全部读完。再此基础上去读接下来的版本，通过比对版本间的演化，可以得到设计的思路。</p><h2 id="带着目的"><a href="#带着目的" class="headerlink" title="带着目的"></a>带着目的</h2><p>不要在阅读过程中丢失阅读的目的。目的可以是搞明白某个部件、某个抽象。</p><h2 id="搜索代码"><a href="#搜索代码" class="headerlink" title="搜索代码"></a>搜索代码</h2><p>学会源码的关键字搜索：github、IDE、grep</p><h2 id="运行代码"><a href="#运行代码" class="headerlink" title="运行代码"></a>运行代码</h2><p>学会怎么调试：断点、调用栈、日志、print 大法</p><h2 id="记录过程"><a href="#记录过程" class="headerlink" title="记录过程"></a>记录过程</h2><p>同时，时刻记录自己的思考过程和进度。持久化自己的思考。</p><h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><p>现在可以多用 chatgpt 问问题，一些简单的语法问题可以快速解决。</p><h1 id="相关链接"><a href="#相关链接" class="headerlink" title="相关链接"></a>相关链接</h1><p><a href="https://www.bilibili.com/video/BV1SH4y1X7oA/?spm_id_from=333.1387.homepage.video_card.click&vd_source=e3398a91527a10552f4a0973bbb591f6">怎么读代码？从源码学习是好方法么？</a></p><p><a href="https://www.bilibili.com/video/BV1cH4y197ah?spm_id_from=333.788.videopod.sections&vd_source=e3398a91527a10552f4a0973bbb591f6">读源码实战教程，以Redis源码为例</a></p><p><a href="https://zhuanlan.zhihu.com/p/114868001">如何高效地看代码</a></p>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>Tools</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>工具流美化</title>
     <link href="/2025/02/06/%E5%B7%A5%E5%85%B7%E6%B5%81%E7%BE%8E%E5%8C%96/"/>
     <url>/2025/02/06/%E5%B7%A5%E5%85%B7%E6%B5%81%E7%BE%8E%E5%8C%96/</url>
